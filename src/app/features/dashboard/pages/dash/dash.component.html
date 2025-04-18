@@ -1,0 +1,29 @@
+<div class="dashboard-cards">
+  <div class="card" (click)="showDetails('PENDING')">
+    <h3>En attente</h3>
+    <p>{{ pendingProjects.length }} projet(s)</p>
+  </div>
+
+  <div class="card" (click)="showDetails('OPEN')">
+    <h3>Ouverts</h3>
+    <p>{{ openProjects.length }} projet(s)</p>
+  </div>
+
+  <div class="card" (click)="showDetails('CLOSED')">
+    <h3>Terminés</h3>
+    <p>{{ closedProjects.length }} projet(s)</p>
+  </div>
+</div>
+
+<div *ngIf="selectedStatus" class="project-list">
+  <h4>Projets {{ selectedStatus.toLowerCase() }}</h4>
+  <ul>
+    <li *ngFor="let project of getProjectsByStatus()">
+      {{ project.name }}
+    </li>
+  </ul>
+</div>
+
+<button (click)="createProject()" class="btn btn-primary">
+  Créer un projet
+</button>
