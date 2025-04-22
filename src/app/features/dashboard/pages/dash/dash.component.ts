@@ -23,7 +23,7 @@ export class DashComponent implements OnInit {
   ngOnInit(): void {
     this.dashService.getOpenProjects().subscribe({
       next: (response) => {
-        this.openProjects = response.results; // 👈 C'est ici le point clé
+        this.openProjects = response.results;
       },
       error: (err) => {
         console.error('Erreur de chargement des projets OPEN', err);
@@ -55,7 +55,6 @@ export class DashComponent implements OnInit {
     this.dashService.createProject(newProject).subscribe({
       next: (res) => {
         console.log('Projet créé !', res);
-        // Tu peux recharger la liste ici ou afficher un toast
       },
       error: (err) => {
         console.error('Erreur création projet', err);

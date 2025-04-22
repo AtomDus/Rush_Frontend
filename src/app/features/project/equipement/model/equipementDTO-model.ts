@@ -4,5 +4,4 @@ export interface Equipement {
   serialNumber: string;
   ownerId: number;
   plannedRevisionDate: string | null;
-  // Ajoute d'autres propriétés si nécessaire
 }
