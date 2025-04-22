@@ -28,5 +28,4 @@ export class DashService {
     return this._http.post<any>(`${environment.API_URL}/projects/add`, project);
   }
 
-
 }

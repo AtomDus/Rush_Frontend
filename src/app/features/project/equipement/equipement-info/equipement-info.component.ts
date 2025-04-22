@@ -31,4 +31,5 @@ export class EquipementInfoComponent {
       console.error('No equipement ID found in route.');
     }
   }
+
 }
