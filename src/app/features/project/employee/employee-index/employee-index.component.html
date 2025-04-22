@@ -1,0 +1,16 @@
+<div class="employee-list">
+  <h2>Liste des employés du projet</h2>
+
+  <div *ngIf="employees.length === 0">
+    <p>Aucun employé n'est assigné à ce projet.</p>
+  </div>
+
+  <ul *ngIf="employees.length > 0">
+    <li *ngFor="let employee of employees" class="employee-item">
+      <div class="employee-details">
+        <p><strong>{{ employee.lastName }}</strong></p>
+        <p>Poste : {{ employee.jobTitle }}</p>
+      </div>
+    </li>
+  </ul>
+</div>

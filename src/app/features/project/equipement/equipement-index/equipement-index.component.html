@@ -1,0 +1,31 @@
+<div *ngIf="equipements.length === 0">Aucun équipement disponible.</div>
+
+<table *ngIf="equipements.length > 0">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Nom</th>
+    <th>S/N</th>
+    <th>Révision prévue</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let equipement of equipements">
+    <td>{{ equipement.id }}</td>
+    <td>{{ equipement.name }}</td>
+    <td>{{ equipement.serialNumber }}</td>
+    <td>{{ equipement.plannedRevisionDate || 'Non planifié' }}</td>
+    <td>
+      <!--<button (click)="viewEquipementDetails(equipement.id)">Détails</button>
+      <button (click)="deleteEquipement(equipement.id)">Supprimer</button>-->
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<div class="pagination">
+  <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage <= 1">Précédent</button>
+  <span>Page {{ currentPage }} sur {{ totalPages }}</span>
+  <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage >= totalPages">Suivant</button>
+</div>
