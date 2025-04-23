@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {EmployeeIndexService} from '../service/employee-index.service';
 import {NgForOf, NgIf} from '@angular/common';
+import {Employee} from '../model/employeeDTO-model';
 
 @Component({
   selector: 'app-employee-index',
@@ -15,27 +16,35 @@ import {NgForOf, NgIf} from '@angular/common';
 })
 export class EmployeeIndexComponent implements OnInit {
   employees: Employee[] = [];
-  projectId!: number;
 
   constructor(
-    private route: ActivatedRoute,
-    private employeeService: EmployeeIndexService
+    private employeeService: EmployeeIndexService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.projectId = Number(this.route.snapshot.paramMap.get('projectId'));
-    this.fetchEmployeesForProject();
+    const projectId = this.route.snapshot.paramMap.get('projectId');
+    console.log('Project ID:', projectId);
+
+    if (projectId) {
+      this.fetchEmployeesForProject(+projectId);
+    } else {
+      this.fetchAllEmployees(); // ajoute cette méthode dans ton service aussi
+    }
   }
 
-  fetchEmployeesForProject(): void {
-    this.employeeService.getEmployeesByProjectId(this.projectId).subscribe(employees => {
-      this.employees = employees;
+  fetchEmployeesForProject(projectId: number): void {
+    this.employeeService.getEmployeesByProjectId(projectId).subscribe({
+      next: (employees) => this.employees = employees,
+      error: (err) => console.error('Erreur chargement employés par projet:', err)
     });
   }
 
-  removeEmployeeFromProject(employeeId: number): void {
-    this.employeeService.removeEmployeeFromProject(this.projectId, employeeId).subscribe(() => {
-      this.fetchEmployeesForProject();
+  fetchAllEmployees(): void {
+    // Appelle ici une méthode que tu dois ajouter au service
+    this.employeeService.getAllEmployees().subscribe({
+      next: (employees) => this.employees = employees,
+      error: (err) => console.error('Erreur chargement tous les employés:', err)
     });
   }
 }

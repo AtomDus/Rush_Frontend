@@ -1,3 +1,5 @@
-<h1>Welcome to Rush</h1>
-
-<p>Ici plein d'explication super et pas du tout bullshit pour nous rejoindre</p>
+<div class="home-container">
+  <h1>{{ welcomeMessage() }}</h1>
+  <p *ngIf="!currentUser()">Vous n’êtes pas encore connecté. Cliquez sur "Login" pour commencer.</p>
+  <p *ngIf="currentUser()">Merci de votre confiance 😊</p>
+</div>

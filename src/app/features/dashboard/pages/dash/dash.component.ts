@@ -1,63 +1,55 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {DashService} from '../../services/dash.service';
 import {NgForOf, NgIf} from '@angular/common';
+import {ProjectDTO} from '../../../project/models/projectDTO';
+import {ProjectService} from '../../../project/service/project.service';
+import {ProjectDetailsComponent} from '../../../project/pages/project-details/project-details.component';
+import {AuthService} from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'app-dash',
   imports: [
     NgIf,
-    NgForOf
+    NgForOf,
+    ProjectDetailsComponent
   ],
   templateUrl: './dash.component.html',
   styleUrl: './dash.component.scss'
 })
 export class DashComponent implements OnInit {
-  pendingProjects: any[] = [];
-  openProjects: any[] = [];
-  closedProjects: any[] = [];
 
-  selectedStatus: 'PENDING' | 'OPEN' | 'CLOSED' | null = null;
+  private readonly authService = inject(AuthService);
+  private readonly projectService = inject(ProjectService);
 
-  constructor(private dashService: DashService) {}
+  isLoading: boolean = true;
+
+  projectsEnAttente: ProjectDTO[] = [];
+  projectsEnCours: ProjectDTO[] = [];
+  projectsTermines: ProjectDTO[] = [];
+
+  constructor() {}
 
   ngOnInit(): void {
-    this.dashService.getOpenProjects().subscribe({
-      next: (response) => {
-        this.openProjects = response.results;
-      },
-      error: (err) => {
-        console.error('Erreur de chargement des projets OPEN', err);
-      }
-    });
-  }
+    const currentUser = this.authService.currentUser();
 
-  showDetails(status: 'PENDING' | 'OPEN' | 'CLOSED') {
-    this.selectedStatus = this.selectedStatus === status ? null : status;
-  }
-
-  getProjectsByStatus(): any[] {
-    switch (this.selectedStatus) {
-      case 'PENDING': return this.pendingProjects;
-      case 'OPEN': return this.openProjects;
-      case 'CLOSED': return this.closedProjects;
-      default: return [];
+    if (!currentUser) {
+      console.error('Aucun utilisateur connecté.');
+      this.isLoading = false;
+      return;
     }
-  }
 
-  createProject() {
-    const newProject = {
-      name: 'Nouveau Projet',
-      description: 'Description du projet',
-      startingDate: new Date().toISOString().split('T')[0],
-      status: 'PENDING',
-    };
+    const userId = currentUser.user.id;
 
-    this.dashService.createProject(newProject).subscribe({
-      next: (res) => {
-        console.log('Projet créé !', res);
+    this.projectService.getProjectsByUserId(userId).subscribe({
+      next: (projects) => {
+        this.projectsEnAttente = projects.filter(p => p.status?.name === 'EN_ATTENTE');
+        this.projectsEnCours = projects.filter(p => p.status?.name === 'EN_COURS');
+        this.projectsTermines = projects.filter(p => p.status?.name === 'TERMINE');
+        this.isLoading = false;
       },
       error: (err) => {
-        console.error('Erreur création projet', err);
+        console.error('Erreur lors de la récupération des projets :', err);
+        this.isLoading = false;
       }
     });
   }

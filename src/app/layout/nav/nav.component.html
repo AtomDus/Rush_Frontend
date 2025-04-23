@@ -1,1 +1,11 @@
-<p>nav works!</p>
+<p-menubar [model]="items"></p-menubar>
+
+<p-dialog header="Register" [modal]="true" [(visible)]="registerVisible">
+  <app-register (close)="closeForm()"></app-register>
+</p-dialog>
+<p-dialog header="Login" [modal]="true" [(visible)]="loginVisible">
+  <app-login (close)="closeForm()"></app-login>
+</p-dialog>
+<p-dialog header="Dashboard" [modal]="true" [(visible)]="dashboardVisible">
+  <app-dash></app-dash>
+</p-dialog>

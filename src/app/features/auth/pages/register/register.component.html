@@ -1,1 +1,67 @@
-<p>register works!</p>
+<div class="form-container">
+  <h2>Inscription</h2>
+
+  <form [formGroup]="registerForm" (ngSubmit)="submit()">
+    <div class="field">
+      <label for="firstName">Prénom</label>
+      <input id="firstName" formControlName="firstName" type="text" />
+      <small *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched">
+        Prénom requis
+      </small>
+    </div>
+
+    <div class="field">
+      <label for="lastName">Nom</label>
+      <input id="lastName" formControlName="lastName" type="text" />
+      <small *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched">
+        Nom requis
+      </small>
+    </div>
+
+    <div class="field">
+      <label for="email">Email</label>
+      <input id="email" formControlName="email" type="email" />
+      <small *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+        Email invalide
+      </small>
+    </div>
+
+    <div class="field">
+      <label for="phoneNumber">Numéro de téléphone</label>
+      <input id="phoneNumber" formControlName="phoneNumber" type="text" />
+      <small *ngIf="registerForm.get('phoneNumber')?.invalid && registerForm.get('phoneNumber')?.touched">
+        Numéro de téléphone requis
+      </small>
+    </div>
+
+    <div class="field">
+      <label for="jobTitle">Poste</label>
+      <input id="jobTitle" formControlName="jobTitle" type="text" />
+      <small *ngIf="registerForm.get('jobTitle')?.invalid && registerForm.get('jobTitle')?.touched">
+        Poste requis
+      </small>
+    </div>
+
+    <div class="field">
+      <label for="isAvailable">Disponible</label>
+      <input id="isAvailable" formControlName="isAvailable" type="checkbox" />
+    </div>
+
+    <div class="field">
+      <label for="status">Statut</label>
+      <select id="status" formControlName="status">
+        <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="password">Mot de passe</label>
+      <input id="password" formControlName="password" type="password" />
+      <small *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+        Mot de passe requis
+      </small>
+    </div>
+
+    <button type="submit" [disabled]="registerForm.invalid">Créer un compte</button>
+  </form>
+</div>

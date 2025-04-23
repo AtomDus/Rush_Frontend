@@ -21,12 +21,24 @@ export class AuthService {
   }
 
   register(form: RegisterFormModel) {
-    return this._http.post<void>(`${environment.API_URL}/auth/register`,form);
+    const payload = {
+      firstname: form.firstName,
+      lastname: form.lastName,
+      email: form.email,
+      phoneNumber: form.phoneNumber,
+      jobTitle: form.jobTitle,
+      isAvailable: form.isAvailable,
+      status: form.status,
+      password: form.password
+    };
+
+    return this._http.post<void>(`${environment.API_URL}/auth/register`, payload);
   }
 
   login(form: LoginFormModel) {
-    return this._http.post<UserTokenDto>(`${environment.API_URL}/auth/login`,form).pipe(
+    return this._http.post<UserTokenDto>(`${environment.API_URL}/auth/login`, form).pipe(
       tap(result => {
+        console.log("Réponse du backend (login):", result);
         this.currentUser.set(result);
         localStorage.setItem("currentUser", JSON.stringify(result));
       }),

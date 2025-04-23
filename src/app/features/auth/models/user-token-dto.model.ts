@@ -1,9 +1,10 @@
 export interface UserTokenDto {
   token: string;
-  wizard: UserSessionDto;
+  user: UserSessionDto;
 }
 export interface UserSessionDto {
   id: number;
   role: string;
-  fullName: string;
+  firstname: string;
+  lastname: string;
 }

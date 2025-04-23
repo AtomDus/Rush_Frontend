@@ -2,6 +2,9 @@ import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
 import {ProjectDTO} from '../models/projectDTO';
+import {Observable} from 'rxjs';
+import {AuthService} from '../../auth/services/auth.service';
+import {UserTokenDto} from '../../auth/models/user-token-dto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +13,16 @@ export class ProjectService {
 
   private readonly _http: HttpClient = inject(HttpClient);
 
-  constructor() { }
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
-  getProjectsById(id: number) {
-    return this._http.get<ProjectDTO>(`${environment.API_URL}/projects/{id}`);
+  // Appel API pour récupérer les informations de l'utilisateur par ID
+  getUserById(userId: number): Observable<UserTokenDto> {
+    return this.http.get<UserTokenDto>(`http://localhost:8080/users/${userId}`);
   }
+
+  // Appel API pour récupérer les projets de l'utilisateur par ID
+  getProjectsByUserId(userId: number): Observable<ProjectDTO[]> {
+    return this.http.get<ProjectDTO[]>(`http://localhost:8080/projects/by-responsable/${userId}`);
+  }
+
 }

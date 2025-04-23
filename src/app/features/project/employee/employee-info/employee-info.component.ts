@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {Employee} from '../model/employeeDTO-model';
 
 @Component({
   selector: 'app-employee-info',
