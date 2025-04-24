@@ -5,6 +5,7 @@ import {ProjectDTO} from '../models/projectDTO';
 import {Observable} from 'rxjs';
 import {AuthService} from '../../auth/services/auth.service';
 import {UserTokenDto} from '../../auth/models/user-token-dto.model';
+import {PaginatedProjectsDTO} from '../models/paginatedProjectsDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +22,8 @@ export class ProjectService {
   }
 
   // Appel API pour récupérer les projets de l'utilisateur par ID
-  getProjectsByUserId(userId: number): Observable<ProjectDTO[]> {
-    return this.http.get<ProjectDTO[]>(`http://localhost:8080/projects/by-responsable/${userId}`);
+  getProjectsByUserId(userId: number): Observable<PaginatedProjectsDTO> {
+    return this.http.get<PaginatedProjectsDTO>(`http://localhost:8080/projects/by-responsable/${userId}`);
   }
 
 }

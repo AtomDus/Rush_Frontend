@@ -55,7 +55,7 @@ export class NavComponent {
             routerLink: '/home',
           },
           {
-            label: currentUser.user.lastname + ' ' + currentUser.user.firstname,
+            label: currentUser.user.lastname + ' ' + currentUser.user.firstname + ' (' + currentUser.user.email + ')',
             icon: 'pi pi-user',
             routerLink: '/management',
           },

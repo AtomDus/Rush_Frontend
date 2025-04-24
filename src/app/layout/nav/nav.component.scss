@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  .ui-dialog {
+    background-color: #121212;
+    color: #fff;
+    border-radius: 10px;
+  }
+
+  .ui-dialog-titlebar {
+    background-color: #e50914;
+  }
+}

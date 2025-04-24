@@ -7,4 +7,5 @@ export interface UserSessionDto {
   role: string;
   firstname: string;
   lastname: string;
+  email: string;
 }

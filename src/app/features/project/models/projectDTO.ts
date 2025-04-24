@@ -2,17 +2,13 @@ export interface ProjectDTO {
   id: number;
   name: string;
   description: string;
-  status: StatusDTO;
+  status: string;
+  responsableEmail: string;
   employees: EmployeeDTO[];
-  startDate: Date;
-  endDate: Date;
+  startingDate: Date;
+  finishingDate: Date;
   createdAt: Date;
   updatedAt: Date;
-}
-
-export interface StatusDTO {
-  id: number;
-  name: string;
 }
 
 export interface EmployeeDTO {

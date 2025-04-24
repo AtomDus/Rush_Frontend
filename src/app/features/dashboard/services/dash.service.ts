@@ -9,38 +9,11 @@ import {AuthService} from '../../auth/services/auth.service';
 export class DashService {
 
   private readonly _http: HttpClient = inject(HttpClient);
-  private readonly _authService: AuthService = inject(AuthService);
 
   constructor() { }
 
-  getPendingProjects() {
-    const userId = this._authService.currentUser()?.user.id;
-    if (!userId) {
-      throw new Error('Utilisateur non connecté');
-    }
-    return this._http.get<any>(
-      `${environment.API_URL}/projects/by-responsable/${userId}/pending?page=1&size=10&sort=id`
-    );
-  }
-
-  getOpenProjects() {
-    const userId = this._authService.currentUser()?.user.id;
-    if (!userId) {
-      throw new Error('Utilisateur non connecté');
-    }
-    return this._http.get<any>(
-      `${environment.API_URL}/projects/by-responsable/${userId}/open?page=1&size=10&sort=id`
-    );
-  }
-
-  getClosedProjects() {
-    const userId = this._authService.currentUser()?.user.id;
-    if (!userId) {
-      throw new Error('Utilisateur non connecté');
-    }
-    return this._http.get<any>(
-      `${environment.API_URL}/projects/by-responsable/${userId}/closed?page=1&size=10&sort=id`
-    );
+  getProjectsByUserId(userId: number) {
+    return this._http.get<any>(`${environment.API_URL}/projects/by-responsable/${userId}`);
   }
 
   createProject(project: any) {

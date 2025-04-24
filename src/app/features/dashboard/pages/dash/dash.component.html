@@ -1,14 +1,21 @@
-<div class="p-6">
-  <h2 class="text-2xl font-semibold mb-6">Tableau de bord - Mes Projets</h2>
+<div class="p-6 bg-neutral-950 min-h-screen text-gray-100 font-sans">
 
+  <!-- Titre principal -->
+  <h2 class="text-3xl font-semibold mb-6 text-white tracking-wide">
+    Tableau de bord - Mes Projets
+  </h2>
+
+  <!-- Chargement -->
   <div *ngIf="isLoading" class="text-center text-gray-500">
     Chargement des projets...
   </div>
 
+  <!-- Contenu principal -->
   <div *ngIf="!isLoading">
-    <!-- Projet EN ATTENTE -->
+
+    <!-- Projets en attente -->
     <div class="mb-10">
-      <h3 class="text-xl font-bold text-yellow-600 mb-3">🕒 Projets en attente</h3>
+      <h3 class="text-xl font-bold text-yellow-500 mb-3">🕒 Projets en attente</h3>
       <div *ngIf="projectsEnAttente.length === 0" class="text-sm text-gray-400">Aucun projet en attente.</div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <ng-container *ngFor="let project of projectsEnAttente">
@@ -17,9 +24,9 @@
       </div>
     </div>
 
-    <!-- Projet EN COURS -->
+    <!-- Projets en cours -->
     <div class="mb-10">
-      <h3 class="text-xl font-bold text-blue-600 mb-3">🚧 Projets en cours</h3>
+      <h3 class="text-xl font-bold text-blue-500 mb-3">🚧 Projets en cours</h3>
       <div *ngIf="projectsEnCours.length === 0" class="text-sm text-gray-400">Aucun projet en cours.</div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <ng-container *ngFor="let project of projectsEnCours">
@@ -28,9 +35,9 @@
       </div>
     </div>
 
-    <!-- Projet TERMINÉ -->
+    <!-- Projets terminés -->
     <div class="mb-10">
-      <h3 class="text-xl font-bold text-green-600 mb-3">✅ Projets terminés</h3>
+      <h3 class="text-xl font-bold text-green-500 mb-3">✅ Projets terminés</h3>
       <div *ngIf="projectsTermines.length === 0" class="text-sm text-gray-400">Aucun projet terminé.</div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <ng-container *ngFor="let project of projectsTermines">
@@ -38,5 +45,71 @@
         </ng-container>
       </div>
     </div>
+
+    <!-- Bouton d'ajout -->
+    <button
+      (click)="toggleFormVisibility()"
+      class="mt-6 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded transition duration-200"
+    >
+      {{ isFormVisible ? 'Annuler' : 'Ajouter un projet' }}
+    </button>
+
+    <!-- Formulaire d'ajout -->
+    <div *ngIf="isFormVisible">
+      <form
+        (ngSubmit)="onSubmit()"
+        #projectForm="ngForm"
+        class="mt-6 bg-neutral-900 p-6 rounded-xl shadow border border-neutral-700 space-y-4"
+      >
+
+        <div class="space-y-2">
+          <label class="block font-semibold" for="name">Nom du projet</label>
+          <input class="w-full p-2 rounded bg-neutral-800 border border-neutral-600 text-white" type="text" id="name" [(ngModel)]="newProject.name" name="name" required />
+        </div>
+
+        <div class="space-y-2">
+          <label class="block font-semibold" for="description">Description</label>
+          <input class="w-full p-2 rounded bg-neutral-800 border border-neutral-600 text-white" type="text" id="description" [(ngModel)]="newProject.description" name="description" required />
+        </div>
+
+        <div class="space-y-2">
+          <label class="block font-semibold" for="startingDate">Date de début</label>
+          <input class="w-full p-2 rounded bg-neutral-800 border border-neutral-600 text-white" type="date" id="startingDate" [(ngModel)]="newProject.startingDate" name="startingDate" required />
+        </div>
+
+        <div class="space-y-2">
+          <label class="block font-semibold" for="finishingDate">Date de fin</label>
+          <input class="w-full p-2 rounded bg-neutral-800 border border-neutral-600 text-white" type="date" id="finishingDate" [(ngModel)]="newProject.finishingDate" name="finishingDate" required />
+        </div>
+
+        <div class="space-y-2">
+          <label class="block font-semibold" for="productionCompanyName">Nom de l'entreprise de production</label>
+          <input class="w-full p-2 rounded bg-neutral-800 border border-neutral-600 text-white" type="text" id="productionCompanyName" [(ngModel)]="newProject.productionCompanyName" name="productionCompanyName" required />
+        </div>
+
+        <div class="space-y-2">
+          <label class="block font-semibold" for="duration">Durée (en jours)</label>
+          <input class="w-full p-2 rounded bg-neutral-800 border border-neutral-600 text-white" type="number" id="duration" [(ngModel)]="newProject.duration" name="duration" required />
+        </div>
+
+        <div class="space-y-2">
+          <label class="block font-semibold" for="budget">Budget</label>
+          <input class="w-full p-2 rounded bg-neutral-800 border border-neutral-600 text-white" type="number" id="budget" [(ngModel)]="newProject.budget" name="budget" required />
+        </div>
+
+        <button
+          type="submit"
+          [disabled]="!projectForm.form.valid"
+          class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded transition duration-200"
+        >
+          Créer le projet
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Calendrier -->
+  <div class="mt-12 bg-neutral-900 p-6 rounded-xl shadow border border-neutral-700" *ngIf="!isLoading">
+    <full-calendar [options]="calendarOptions"></full-calendar>
   </div>
 </div>

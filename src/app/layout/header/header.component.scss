@@ -1,0 +1,28 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  header {
+    background-color: #1e1e1e; /* noir cinéma */
+    color: #ffffff;
+    text-align: center;
+    padding: 2rem 1rem;
+    border-bottom: 4px solid #e50914; /* rouge vif inspiré du rouge "tournage" */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    h1 {
+      font-size: 2.5rem;
+      margin: 0;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-top: 0.5rem;
+      color: #cccccc;
+    }
+  }
+}
+
+

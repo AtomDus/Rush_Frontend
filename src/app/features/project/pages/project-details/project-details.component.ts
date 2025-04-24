@@ -5,7 +5,6 @@ import {NgClass} from '@angular/common';
 @Component({
   selector: 'app-project-details',
   imports: [
-    NgClass
   ],
   templateUrl: './project-details.component.html',
   styleUrl: './project-details.component.scss'
