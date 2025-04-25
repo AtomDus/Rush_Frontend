@@ -1,5 +1,20 @@
-<div class="bg-neutral-900 border border-neutral-700 text-white rounded-2xl p-4 shadow-md hover:shadow-lg transition duration-300">
-  <h3 class="text-lg font-semibold text-white">{{ project.name }}</h3>
-  <p class="text-sm text-gray-400 mt-1">{{ project.description }}</p>
-  <p class="text-sm text-gray-500 mt-2">📅 Début : {{ project.startingDate }}</p>
+<div *ngIf="isLoading">Chargement...</div>
+<div *ngIf="!isLoading && !project">
+  <p>Projet introuvable.</p>
+</div>
+
+<div *ngIf="!isLoading && project">
+  <h2>{{ project.name }}</h2>
+  <p><strong>Description:</strong> {{ project.description }}</p>
+  <p><strong>Status:</strong> {{ project.status }}</p>
+  <p><strong>Début:</strong> {{ project.startingDate }}</p>
+  <p><strong>Fin:</strong> {{ project.finishingDate }}</p>
+  <p><strong>Responsable:</strong> {{ project.responsableEmail }}</p>
+  <p><strong>Budget:</strong> {{ project.budget}}</p>
+  <h3>Employés</h3>
+  <ul>
+    <li *ngFor="let emp of project.employees">
+      {{ emp.firstName }} {{ emp.lastName }} ({{ emp.jobTitle }})
+    </li>
+  </ul>
 </div>

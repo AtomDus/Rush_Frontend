@@ -19,6 +19,6 @@ export const routes: Routes = [
     path: 'employees/:projectId', loadComponent: () => import('./features/project/employee/employee-info/employee-info.component').then(m => m.EmployeeInfoComponent)
   },
   {
-    path: 'projects/:projectId', loadComponent: () => import('./features/project/pages/project-details/project-details.component').then(m => m.ProjectDetailsComponent)
+    path: 'projects/:id', loadComponent: () => import('./features/project/pages/project-details/project-details.component').then(m => m.ProjectDetailsComponent)
   }
 ];

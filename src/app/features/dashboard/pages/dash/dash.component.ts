@@ -2,7 +2,7 @@ import {Component, inject, OnInit} from '@angular/core';
 import {DashService} from '../../services/dash.service';
 import {NgForOf, NgIf} from '@angular/common';
 import {ProjectDTO} from '../../../project/models/projectDTO';
-import {ProjectDetailsComponent} from '../../../project/pages/project-details/project-details.component';
+import {ProjectCardComponent} from '../../../project/pages/project-card/project-card.component';
 import {AuthService} from '../../../auth/services/auth.service';
 import {CalendarOptions} from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -16,7 +16,7 @@ import {FormsModule} from '@angular/forms';
   imports: [
     NgIf,
     NgForOf,
-    ProjectDetailsComponent,
+    ProjectCardComponent,
     FullCalendarModule,
     FormsModule
   ],
@@ -139,4 +139,16 @@ export class DashComponent implements OnInit {
     this.isFormVisible = !this.isFormVisible;
   }
 
+  goToProject(id: number): void {
+    this.router.navigate(['/projects', id]).then(
+      success => {
+        if (!success) {
+          console.error('La navigation a échoué');
+        }
+      },
+      error => {
+        console.error('Erreur lors de la navigation :', error);
+      }
+    );
+  }
 }

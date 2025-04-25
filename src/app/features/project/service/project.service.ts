@@ -16,14 +16,16 @@ export class ProjectService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  // Appel API pour récupérer les informations de l'utilisateur par ID
   getUserById(userId: number): Observable<UserTokenDto> {
     return this.http.get<UserTokenDto>(`http://localhost:8080/users/${userId}`);
   }
 
-  // Appel API pour récupérer les projets de l'utilisateur par ID
   getProjectsByUserId(userId: number): Observable<PaginatedProjectsDTO> {
     return this.http.get<PaginatedProjectsDTO>(`http://localhost:8080/projects/by-responsable/${userId}`);
+  }
+
+  getProjectById(id: number): Observable<ProjectDTO> {
+    return this.http.get<ProjectDTO>(`http://localhost:8080/projects/${id}`);
   }
 
 }

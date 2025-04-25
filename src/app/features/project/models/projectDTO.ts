@@ -7,6 +7,7 @@ export interface ProjectDTO {
   employees: EmployeeDTO[];
   startingDate: Date;
   finishingDate: Date;
+  budget: number;
   createdAt: Date;
   updatedAt: Date;
 }
