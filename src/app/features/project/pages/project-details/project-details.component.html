@@ -4,17 +4,157 @@
 </div>
 
 <div *ngIf="!isLoading && project">
+
   <h2>{{ project.name }}</h2>
   <p><strong>Description:</strong> {{ project.description }}</p>
   <p><strong>Status:</strong> {{ project.status }}</p>
   <p><strong>Début:</strong> {{ project.startingDate }}</p>
   <p><strong>Fin:</strong> {{ project.finishingDate }}</p>
-  <p><strong>Responsable:</strong> {{ project.responsableEmail }}</p>
+
+  <div *ngIf="project?.responsable">
+    <h3>Responsable</h3>
+    <p><strong>Nom:</strong> {{ project.responsable.firstname }} {{ project.responsable.lastname }}</p>
+    <p><strong>Email:</strong> {{ project.responsable.email }}</p>
+  </div>
+
+  <div *ngIf="project?.stages">
+    <h3>Etapes</h3>
+    <ul>
+      <li *ngFor="let stage of project.stages">
+        {{ stage.name }}
+        {{ stage.description }}
+      </li>
+    </ul>
+  </div>
+
+  <button type="button"
+    (click)="toggleFormVisibility()">
+    {{ isFormVisible ? 'Annuler' : 'Ajouter un projet' }}
+  </button>
+
+  <div *ngIf="isFormVisible">
+    <h3>Ajouter un Stage</h3>
+    <form #stageForm="ngForm" (ngSubmit)="onSubmitStageForm(stageForm)">
+      <div>
+        <label for="name">Nom du Stage:</label>
+        <input type="text" id="name" [(ngModel)]="newStage.name" name="name" required />
+      </div>
+      <div>
+        <label for="description">Description:</label>
+        <textarea id="description" [(ngModel)]="newStage.description" name="description" required></textarea>
+      </div>
+      <div>
+        <label for="startingDate">Date de début:</label>
+        <input type="date" id="startingDate" [(ngModel)]="newStage.startingDate" name="startingDate" required />
+      </div>
+      <div>
+        <label for="finishingDate">Date de fin:</label>
+        <input type="date" id="finishingDate" [(ngModel)]="newStage.finishingDate" name="finishingDate" required />
+      </div>
+      <div>
+        <label for="status">Statut:</label>
+        <select id="status" [(ngModel)]="newStage.status" name="status" required>
+          <option value="" disabled selected>Sélectionner un statut</option>
+          <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
+        </select>
+        <div *ngIf="newStage.status === ''">
+          Le statut est requis.
+        </div>
+      </div>
+      <button type="submit" [disabled]="!stageForm.valid">Ajouter</button>
+      <button type="button" (click)="toggleFormVisibility()">Annuler</button>
+    </form>
+  </div>
+
   <p><strong>Budget:</strong> {{ project.budget}}</p>
+
   <h3>Employés</h3>
-  <ul>
-    <li *ngFor="let emp of project.employees">
-      {{ emp.firstName }} {{ emp.lastName }} ({{ emp.jobTitle }})
-    </li>
-  </ul>
+
+  <button type="button" (click)="onShowEmployeeList()">Voir les employés</button>
+
+  <div *ngIf="showEmployeeList">
+    <ul>
+      <li *ngFor="let emp of project.employes">
+        {{ emp.firstname }} {{ emp.lastname }} ({{ emp.jobTitle }})
+      </li>
+    </ul>
+    <button type="button" (click)="onShowEmployeeList()">Annuler</button>
+  </div>
+
+  <div class="my-4">
+    <label for="searchEmail">Ajouter un employé :</label>
+    <input
+      type="email"
+      id="searchEmail"
+      [(ngModel)]="newEmploye.email"
+      name="searchEmail"
+      placeholder="Entrez l'email"
+      required
+    />
+    <button type="button" (click)="onSearchEmployee(newEmploye.email)">
+      Rechercher
+    </button>
+  </div>
+
+  <div *ngIf="searchedEmployee">
+    Employé trouvé et ajouté au projet.
+  </div>
+
+  <div *ngIf="showEmployeeForm">
+    <h3>Ajouter un Employé</h3>
+
+    <form #employeForm="ngForm" (ngSubmit)="onSubmitEmployeForm(employeForm)">
+
+      <div>
+        <label for="firstname">Prénom :</label>
+        <input type="text" id="firstname" [(ngModel)]="newEmploye.firstname" name="firstname" required />
+      </div>
+
+      <div>
+        <label for="lastname">Nom :</label>
+        <input type="text" id="lastname" [(ngModel)]="newEmploye.lastname" name="lastname" required />
+      </div>
+
+      <div>
+        <label for="jobTitle">Titre du poste :</label>
+        <input type="text" id="jobTitle" [(ngModel)]="newEmploye.jobTitle" name="jobTitle" required />
+      </div>
+
+      <div>
+        <label for="email">Email :</label>
+        <input type="email" id="email" [(ngModel)]="newEmploye.email" name="email" required readonly />
+      </div>
+
+      <div>
+        <label for="phoneNumber">Numéro de téléphone :</label>
+        <input type="tel" id="phoneNumber" [(ngModel)]="newEmploye.phoneNumber" name="phoneNumber" required />
+      </div>
+
+      <div>
+        <button type="submit" [disabled]="!employeForm.valid">
+          Ajouter
+        </button>
+        <button type="button" (click)="showEmployeeForm = false">
+          Annuler
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <button type="button" (click)="onShowEquipementList()">Voir les equipements</button>
+
+  <div *ngIf="showEquipementList">
+    <ul>
+      <li *ngFor="let eq of project.equipements">
+        {{ eq.name }} ({{ eq.stock }} en stock)
+      </li>
+    </ul>
+    <button type="button" (click)="onShowEquipementList()">Annuler</button>
+  </div>
+
+  <div *ngIf="!isLoading">
+    <full-calendar [options]="calendarOptions"></full-calendar>
+  </div>
+
 </div>

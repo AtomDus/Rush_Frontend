@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
-import {ProjectDTO} from '../models/projectDTO';
+import {EmployeeDTO, ProjectDTO} from '../models/projectDTO';
 import {Observable} from 'rxjs';
 import {AuthService} from '../../auth/services/auth.service';
 import {UserTokenDto} from '../../auth/models/user-token-dto.model';
@@ -16,16 +16,20 @@ export class ProjectService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  getUserById(userId: number): Observable<UserTokenDto> {
-    return this.http.get<UserTokenDto>(`http://localhost:8080/users/${userId}`);
-  }
-
-  getProjectsByUserId(userId: number): Observable<PaginatedProjectsDTO> {
-    return this.http.get<PaginatedProjectsDTO>(`http://localhost:8080/projects/by-responsable/${userId}`);
-  }
-
   getProjectById(id: number): Observable<ProjectDTO> {
     return this.http.get<ProjectDTO>(`http://localhost:8080/projects/${id}`);
+  }
+
+  addStage(id: number, stage: any): Observable<ProjectDTO> {
+    return this.http.post<ProjectDTO>(`http://localhost:8080/projects/${id}/stages`, stage);
+  }
+
+  addEmployee(id: number, employee: any): Observable<ProjectDTO> {
+    return this.http.post<ProjectDTO>(`http://localhost:8080/projects/${id}/employes`, employee);
+  }
+
+  findEmployeeByEmail(email: string): Observable<EmployeeDTO> {
+    return this.http.get<EmployeeDTO>(`http://localhost:8080/employees/email/${email}`);
   }
 
 }
