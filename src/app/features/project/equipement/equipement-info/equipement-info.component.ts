@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {Equipement} from '../model/equipementDTO-model';
 import {ActivatedRoute} from '@angular/router';
-import {EquipementIndexService} from '../service/equipement-index.service';
+import {EquipementService} from '../service/equipement.service';
 import {NgIf} from '@angular/common';
 
 @Component({
@@ -17,7 +17,7 @@ export class EquipementInfoComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private equipementService: EquipementIndexService
+    private equipementService: EquipementService
   ) {}
 
   ngOnInit(): void {

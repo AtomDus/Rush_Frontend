@@ -7,7 +7,7 @@ import {environment} from '../../../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class EquipementIndexService {
+export class EquipementService {
 
   constructor(private http: HttpClient) {}
 
@@ -24,8 +24,8 @@ export class EquipementIndexService {
     return this.http.get<Equipement>(`${environment.API_URL}/equipements/{id}`);
   }
 
-  addEquipement(equipement: Equipement): Observable<Equipement> {
-    return this.http.post<Equipement>(`${environment.API_URL}/equipements/add`, equipement);
+  addEquipement(id: number, equipement: Equipement): Observable<Equipement> {
+    return this.http.post<Equipement>(`${environment.API_URL}/{id}/equipements`, equipement);
   }
 
   updateEquipement(id: number, equipement: Equipement): Observable<Equipement> {
@@ -34,5 +34,10 @@ export class EquipementIndexService {
 
   deleteEquipement(id: number): Observable<void> {
     return this.http.delete<void>(`${environment.API_URL}/equipements/{id}`);
+  }
+
+  getRentingCompanyByName(name: string): Observable<any> {
+    const params = new HttpParams().set('name', name);
+    return this.http.get<any>(`${environment.API_URL}/renting-company/name/${params}`);
   }
 }

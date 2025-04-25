@@ -36,12 +36,12 @@
     <h3>Ajouter un Stage</h3>
     <form #stageForm="ngForm" (ngSubmit)="onSubmitStageForm(stageForm)">
       <div>
-        <label for="name">Nom du Stage:</label>
-        <input type="text" id="name" [(ngModel)]="newStage.name" name="name" required />
+        <label for="stage_name">Nom du Stage:</label>
+        <input type="text" id="stage_name" [(ngModel)]="newStage.name" name="name" required />
       </div>
       <div>
-        <label for="description">Description:</label>
-        <textarea id="description" [(ngModel)]="newStage.description" name="description" required></textarea>
+        <label for="stage_description">Description:</label>
+        <textarea id="stage_description" [(ngModel)]="newStage.description" name="description" required></textarea>
       </div>
       <div>
         <label for="startingDate">Date de début:</label>
@@ -151,6 +151,163 @@
       </li>
     </ul>
     <button type="button" (click)="onShowEquipementList()">Annuler</button>
+  </div>
+
+  <button type="button" (click)="onShowAddEquipementForm()">Ajouter un équipement</button>
+
+  <div *ngIf="showAddEquipementForm">
+    <form #equipementForm="ngForm" (ngSubmit)="onSubmitEquipementForm(equipementForm)">
+
+      <div>
+        <label for="name">Nom de l'équipement :</label>
+        <input
+          type="text"
+          id="name"
+          [(ngModel)]="newEquipement.name"
+          name="name"
+          required
+        />
+      </div>
+
+      <!-- Recherche du RentingCompany par nom -->
+      <div>
+        <label for="ownerName">Nom du propriétaire (Renting Company) :</label>
+        <input
+          type="text"
+          id="ownerName"
+          [(ngModel)]="ownerName"
+          (ngModelChange)="searchRentingCompany(ownerName)"
+          name="ownerName"
+        />
+      </div>
+
+      <!-- Affichage des informations du propriétaire sélectionné -->
+      <div *ngIf="foundOwner">
+        <p><strong>Propriétaire sélectionné :</strong> {{ foundOwner.name }}</p>
+        <p><strong>Adresse :</strong> {{ foundOwner.address }}</p>
+        <p><strong>Téléphone :</strong> {{ foundOwner.phoneNumber }}</p>
+      </div>
+
+      <div>
+        <label for="description">Description :</label>
+        <input
+          type="text"
+          id="description"
+          [(ngModel)]="newEquipement.description"
+          name="description"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="model">Modèle :</label>
+        <input
+          type="text"
+          id="model"
+          [(ngModel)]="newEquipement.model"
+          name="model"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="type">Type :</label>
+        <input
+          type="text"
+          id="type"
+          [(ngModel)]="newEquipement.type"
+          name="type"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="serialNumber">Numéro de série :</label>
+        <input
+          type="text"
+          id="serialNumber"
+          [(ngModel)]="newEquipement.serialNumber"
+          name="serialNumber"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="plannedRevisionDate">Date de révision prévue :</label>
+        <input
+          type="date"
+          id="plannedRevisionDate"
+          [(ngModel)]="newEquipement.plannedRevisionDate"
+          name="plannedRevisionDate"
+        />
+      </div>
+
+      <div>
+        <label for="condition">Condition :</label>
+        <select
+          id="condition"
+          [(ngModel)]="newEquipement.condition"
+          name="condition"
+          required
+        >
+          <option value="NEW">Nouveau</option>
+          <option value="GOOD">Bon état</option>
+          <option value="BROKEN">Cassé</option>
+          <option value="TO_BE_REVISED">À réviser</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="stock">Stock :</label>
+        <input
+          type="number"
+          id="stock"
+          [(ngModel)]="newEquipement.stock"
+          name="stock"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="stockage_place">Emplacement de stockage :</label>
+        <input
+          type="text"
+          id="stockage_place"
+          [(ngModel)]="newEquipement.stockagePlace"
+          name="stockage"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="acquisitionDate">Date d'acquisition :</label>
+        <input
+          type="date"
+          id="acquisitionDate"
+          [(ngModel)]="newEquipement.acquisitionDate"
+          name="acquisitionDate"
+        />
+      </div>
+
+      <div>
+        <label for="lastRevision">Dernière révision :</label>
+        <input
+          type="date"
+          id="lastRevision"
+          [(ngModel)]="newEquipement.lastRevision"
+          name="lastRevision"
+        />
+      </div>
+
+      <div>
+        <button type="submit" [disabled]="!equipementForm.valid">
+          Ajouter l'équipement
+        </button>
+        <button type="button" (click)="showAddEquipementForm = false">
+          Annuler
+        </button>
+      </div>
+    </form>
   </div>
 
   <div *ngIf="!isLoading">

@@ -9,7 +9,7 @@ export interface Equipement {
   plannedRevisionDate: string | null;
   condition: "NEW" | "GOOD" | "BROKEN" | "TO_BE_REVISED";
   stock: number;
-  stockage: string;
+  stockLocation: string;
   acquisitionDate: string | null;
   lastRevision: string | null;
 }

@@ -7,8 +7,10 @@ import {FullCalendarModule} from '@fullcalendar/angular';
 import {CalendarOptions} from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import {FormsModule, NgForm} from '@angular/forms';
+import {FormsModule, NgForm, ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from '../../../auth/services/auth.service';
+import {EquipementService} from '../../equipement/service/equipement.service';
+import {RentingCompany} from '../../equipement/model/equipementDTO-model';
 
 @Component({
   selector: 'app-project-details',
@@ -16,34 +18,37 @@ import {AuthService} from '../../../auth/services/auth.service';
     NgIf,
     NgForOf,
     FullCalendarModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   templateUrl: './project-details.component.html',
   styleUrl: './project-details.component.scss'
 })
 export class ProjectDetailsComponent implements OnInit {
 
-  // Services injectés via inject() pour plus de concision
   private readonly route = inject(ActivatedRoute);
   private readonly projectService = inject(ProjectService);
   private readonly authService = inject(AuthService);
+  private readonly equipementService = inject(EquipementService);
 
-  // État général
   project: ProjectDTO | null = null;
   searchedEmployee: EmployeeDTO | null = null;
   isLoading = true;
 
-  // Contrôle d'affichage
   isFormVisible = false;
   isEmployeFormVisible = false;
   showEmployeeForm = false;
+  showAddEquipementForm = false;
+
+
   showEmployeeList = false;
   showEquipementList = false;
 
-  // Options de statut
   statusOptions = ['PENDING', 'OPEN', 'CLOSED'];
 
-  // Configuration du calendrier FullCalendar
+  ownerName: string = '';
+  foundOwner: RentingCompany | null = null;
+
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, interactionPlugin],
     initialView: 'dayGridMonth',
@@ -55,7 +60,6 @@ export class ProjectDetailsComponent implements OnInit {
     }
   };
 
-  // Modèle de formulaire de stage
   newStage: any = {
     name: '',
     description: '',
@@ -63,13 +67,39 @@ export class ProjectDetailsComponent implements OnInit {
     finishingDate : new Date()
   };
 
-  // Modèle de formulaire employé
   newEmploye: any = {
     firstname: '',
     lastname: '',
     jobTitle: '',
     email: '',
     phoneNumber: ''
+  };
+
+  newEquipement: any = {
+    name: '', // Nom de l'équipement
+    owner: {
+      id: 0, // L'ID du RentingCompany, tu le récupéreras probablement via un autre service ou sélection
+      name: '',
+      address: '',
+      city: '',
+      country: '',
+      zipCode: '',
+      phoneNumber: '',
+      email: '',
+      createdAt: '',
+      updatedAt: '',
+      deletedAt: ''
+    },
+    description: '', // Description de l'équipement
+    model: '', // Modèle de l'équipement
+    type: '', // Type de l'équipement
+    serialNumber: '', // Numéro de série
+    plannedRevisionDate: null, // Date de révision prévue, peut-être null si aucune date
+    condition: 'NEW', // Condition de l'équipement, par défaut "NEW"
+    stock: 0, // Quantité en stock
+    stockLocation: '', // Emplacement de stockage
+    acquisitionDate: null, // Date d'acquisition
+    lastRevision: null // Date de la dernière révision
   };
 
   constructor() {}
@@ -83,21 +113,18 @@ export class ProjectDetailsComponent implements OnInit {
       return;
     }
 
-    // On affecte l'email du responsable par défaut au stage
     this.newStage.responsableEmail = currentUser.user.email;
 
     const id = +this.route.snapshot.paramMap.get('id')!;
     this.loadProject(id);
   }
 
-  // Chargement du projet
   loadProject(id: number): void {
     this.projectService.getProjectById(id).subscribe({
       next: (data) => {
         this.project = data;
         this.isLoading = false;
 
-        // On alimente les événements du calendrier avec les stages du projet
         if (this.project?.stages) {
           this.calendarOptions.events = this.project.stages.map(stage => ({
             title: stage.name,
@@ -120,7 +147,6 @@ export class ProjectDetailsComponent implements OnInit {
     this.isFormVisible = !this.isFormVisible;
   }
 
-  // Soumission du formulaire d'ajout de stage
   onSubmitStageForm(form: NgForm): void {
     const newStage = { ...this.newStage };
     if (form.valid) {
@@ -137,11 +163,6 @@ export class ProjectDetailsComponent implements OnInit {
     }
   }
 
-  toggleEmployeFormVisibility(): void {
-    this.isEmployeFormVisible = !this.isEmployeFormVisible;
-  }
-
-  // Soumission du formulaire manuel d'ajout d'employé
   onSubmitEmployeForm(form: NgForm): void {
     const newEmploye = { ...this.newEmploye };
     if (form.valid) {
@@ -158,7 +179,6 @@ export class ProjectDetailsComponent implements OnInit {
     }
   }
 
-  // Recherche d'employé par email
   onSearchEmployee(email: string): void {
     if (!email || !this.project?.id) return;
 
@@ -169,7 +189,6 @@ export class ProjectDetailsComponent implements OnInit {
 
         if (!this.project) return;
 
-        // Ajout direct de l'employé trouvé au projet
         this.projectService.addEmployee(this.project!.id, employee).subscribe({
           next: (updatedProject) => {
             this.project = updatedProject;
@@ -199,5 +218,43 @@ export class ProjectDetailsComponent implements OnInit {
 
   onShowEquipementList(): void {
     this.showEquipementList = !this.showEquipementList;
+  }
+
+  searchRentingCompany(name: string): void {
+    if (name.trim()) {
+      this.equipementService.getRentingCompanyByName(name).subscribe({
+        next: (data) => {
+          this.foundOwner = data;
+          this.newEquipement.owner = data;  // Met à jour le propriétaire dans l'équipement
+        },
+        error: (err) => {
+          console.error('Erreur recherche du propriétaire:', err);
+          this.foundOwner = null;
+        }
+      });
+    } else {
+      this.foundOwner = null;
+    }
+  }
+
+  onShowAddEquipementForm(): void {
+    this.showAddEquipementForm = !this.showAddEquipementForm;
+  }
+
+  onSubmitEquipementForm(form: NgForm): void {
+    if (form.valid && this.project) {
+      const newEquipement = { ...this.newEquipement };
+
+      this.equipementService.addEquipement(this.project.id!, newEquipement).subscribe({
+        next: (data) => {
+          console.log('Équipement ajouté avec succès:', data);
+          this.loadProject(this.project!.id); // Recharger le projet après ajout, en passant l'ID du projet
+          this.showAddEquipementForm = false; // Masquer le formulaire après soumission
+        },
+        error: (err) => {
+          console.error('Erreur lors de l\'ajout de l\'équipement:', err);
+        }
+      });
+    }
   }
 }
