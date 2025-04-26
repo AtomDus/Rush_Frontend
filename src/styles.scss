@@ -1,9 +1,19 @@
-*{
+$primary-color: #2a8d84; // Couleur principale
+$secondary-color: #f2f2f2; // Couleur de fond légère
+$text-color: #333; // Couleur de texte
+$header-font-size: 2.5rem;
+$subheader-font-size: 1.2rem;
+$footer-font-size: 1rem;
+$dialog-background: #fff;
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body {
-  height: 100vh;
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: $secondary-color;
+  color: $text-color;
 }

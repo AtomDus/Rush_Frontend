@@ -2,12 +2,18 @@ import {Component, EventEmitter, inject, Output} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
 import {NgIf} from '@angular/common';
+import {InputText} from 'primeng/inputtext';
+import {PasswordDirective} from 'primeng/password';
+import {ButtonDirective} from 'primeng/button';
 
 @Component({
   selector: 'app-login',
   imports: [
     ReactiveFormsModule,
-    NgIf
+    NgIf,
+    InputText,
+    PasswordDirective,
+    ButtonDirective
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'

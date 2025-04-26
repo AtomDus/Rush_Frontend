@@ -1,18 +1,26 @@
+$primary-color: #2a8d84; // Couleur principale
+$secondary-color: #f2f2f2; // Couleur de fond légère
+$text-color: #333; // Couleur de texte
+$header-font-size: 2.5rem;
+$subheader-font-size: 1.2rem;
+$footer-font-size: 1rem;
+$dialog-background: #fff;
+
 :host {
-  display: flex;
-  flex-direction: column;
+  background-color: #fff;
+  padding: 1rem 2rem;
   text-align: center;
-  footer {
-    background-color: #121212; /* légèrement plus foncé que le header */
-    color: #aaaaaa;
-    text-align: center;
-    padding: 1.5rem 1rem;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+
+  p {
+    font-size: $footer-font-size;
+    color: $text-color;
+  }
+
+  p:last-child {
+    margin-top: 1rem;
     font-size: 0.9rem;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    border-top: 2px solid #e50914; /* rappel du rouge */
-    p {
-      margin: 0.3rem 0;
-    }
+    color: #777;
   }
 }
 

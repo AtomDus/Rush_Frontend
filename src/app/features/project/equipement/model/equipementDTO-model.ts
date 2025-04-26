@@ -1,7 +1,9 @@
+import {CompanyDTO} from '../../company/models/companyDTO.model';
+
 export interface Equipement {
   id: number;
   name: string;
-  owner: RentingCompany;
+  owner: CompanyDTO | null;
   description: string;
   model: string;
   type: string;

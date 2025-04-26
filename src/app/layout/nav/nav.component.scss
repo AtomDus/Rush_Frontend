@@ -1,14 +1,56 @@
 :host {
   display: flex;
-  flex-direction: column;
-  text-align: center;
-  .ui-dialog {
-    background-color: #121212;
-    color: #fff;
-    border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  height: 70px;
+  width: 100%;
+  background: transparent;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 100;
+
+  ::ng-deep p-menubar {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 0.5rem 1.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+    .p-menubar-root-list {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+
+      .p-menuitem {
+        a {
+          color: #1e293b; // Bleu-gris élégant
+          font-weight: 600;
+          font-size: 1.1rem;
+          text-decoration: none;
+          padding: 0.5rem 1rem;
+          border-radius: 8px;
+          transition: background 0.3s, color 0.3s;
+
+          &:hover {
+            background: #2a8d84;
+            color: white;
+          }
+        }
+      }
+    }
+
+    .p-menubar-end {
+      margin-left: auto;
+    }
   }
 
-  .ui-dialog-titlebar {
-    background-color: #e50914;
-  }
+  ::ng-deep .p-dialog {
+
+      .p-dialog-header-icons {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+      }
+    }
 }

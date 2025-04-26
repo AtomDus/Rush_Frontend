@@ -1,0 +1,66 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  gap: 2rem;
+  background-color: #f9fafb; // Gris ultra clair en fond
+  min-height: 100vh;
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #3b82f6; // Bleu clair élégant
+  }
+
+  p {
+    font-size: 1.2rem;
+    color: #374151; // Gris neutre pour garder du contraste
+    margin-bottom: 0.5rem;
+  }
+
+  button {
+    background-color: #3b82f6; // Bleu élégant
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+
+    &:hover {
+      background-color: #60a5fa; // Bleu encore plus clair au hover
+    }
+  }
+
+  .not-logged-in, .logged-in {
+    background: white;
+    padding: 2rem;
+    border-radius: 2rem;
+    box-shadow: 0 8px 16px rgba(59, 130, 246, 0.2); // Ombre bleu clair
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .illustration {
+    margin-top: 2rem;
+
+    img {
+      width: 300px;
+      max-width: 90%;
+      animation: float 6s ease-in-out infinite;
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+}

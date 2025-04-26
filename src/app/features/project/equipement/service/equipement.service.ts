@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {Equipement} from '../model/equipementDTO-model';
 import {environment} from '../../../../../environments/environment';
+import {CompanyDTO} from '../../company/models/companyDTO.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,7 @@ export class EquipementService {
   }
 
   addEquipement(id: number, equipement: Equipement): Observable<Equipement> {
-    return this.http.post<Equipement>(`${environment.API_URL}/{id}/equipements`, equipement);
+    return this.http.post<Equipement>(`${environment.API_URL}/projects/${id}/equipements`, equipement);
   }
 
   updateEquipement(id: number, equipement: Equipement): Observable<Equipement> {
@@ -36,8 +37,8 @@ export class EquipementService {
     return this.http.delete<void>(`${environment.API_URL}/equipements/{id}`);
   }
 
-  getRentingCompanyByName(name: string): Observable<any> {
-    const params = new HttpParams().set('name', name);
-    return this.http.get<any>(`${environment.API_URL}/renting-company/name/${params}`);
+  getRentingCompanyByName(name: string): Observable<CompanyDTO> {
+    const encodedName = encodeURIComponent(name);
+    return this.http.get<CompanyDTO>(`${environment.API_URL}/renting-company/name?name=${encodedName}`);
   }
 }

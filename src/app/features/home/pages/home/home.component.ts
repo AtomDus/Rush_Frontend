@@ -1,5 +1,5 @@
 import {Component, effect, inject, signal, WritableSignal} from '@angular/core';
-import {NgIf} from '@angular/common';
+import {NgIf, NgOptimizedImage} from '@angular/common';
 import {AuthService} from '../../../auth/services/auth.service';
 import {UserTokenDto} from '../../../auth/models/user-token-dto.model';
 

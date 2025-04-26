@@ -1,5 +1,17 @@
 <div class="home-container">
   <h1>{{ welcomeMessage() }}</h1>
-  <p *ngIf="!currentUser()">Vous n’êtes pas encore connecté. Cliquez sur "Login" pour commencer.</p>
-  <p *ngIf="currentUser()">Merci de votre confiance 😊</p>
+
+  <div *ngIf="!currentUser()" class="not-logged-in">
+    <p>Bienvenue sur notre plateforme 🎉</p>
+    <p>Connectez-vous pour découvrir toutes nos fonctionnalités.</p>
+  </div>
+
+  <div *ngIf="currentUser()" class="logged-in">
+    <p>Merci de votre confiance 😊</p>
+    <p>Explorez vos projets et continuez à bâtir de grandes choses avec nous 🚀</p>
+    </div>
+
+  <div class="illustration">
+    <img src="assets/img/accueil.jpg" alt="Illustration d'accueil" />
+  </div>
 </div>

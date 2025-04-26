@@ -11,6 +11,7 @@ import {FormsModule, NgForm, ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from '../../../auth/services/auth.service';
 import {EquipementService} from '../../equipement/service/equipement.service';
 import {RentingCompany} from '../../equipement/model/equipementDTO-model';
+import {CompanyDTO} from '../../company/models/companyDTO.model';
 
 @Component({
   selector: 'app-project-details',
@@ -47,7 +48,7 @@ export class ProjectDetailsComponent implements OnInit {
   statusOptions = ['PENDING', 'OPEN', 'CLOSED'];
 
   ownerName: string = '';
-  foundOwner: RentingCompany | null = null;
+  foundOwner: CompanyDTO | null = null;
 
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, interactionPlugin],
@@ -235,6 +236,7 @@ export class ProjectDetailsComponent implements OnInit {
     } else {
       this.foundOwner = null;
     }
+
   }
 
   onShowAddEquipementForm(): void {
