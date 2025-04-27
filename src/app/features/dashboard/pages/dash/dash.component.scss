@@ -1,6 +1,7 @@
-$primary-color: #2a8d84;
+$primary-color: #2AA6A1;
 $secondary-color: #f2f2f2;
 $text-color: #333;
+
 $accent-color: #e0f7f5;
 $error-color: #ff6b6b;
 $header-font-size: 2rem;
@@ -25,13 +26,13 @@ $section-spacing: 2rem;
     font-size: $header-font-size;
     font-weight: 700;
     margin-bottom: 2rem;
-    color: $primary-color;
+    color: #1B2A41;
   }
 
   h3 {
     font-size: $subheader-font-size;
     margin-bottom: 1rem;
-    color: $primary-color;
+    color: #1B2A41;
   }
 
   .main-content {
@@ -108,12 +109,12 @@ $section-spacing: 2rem;
   }
 
   .btn-primary {
-    background: #3182ce;
+    background: $primary-color;
     color: white;
     border: none;
 
     &:hover {
-      background: #2b6cb0;
+      background: #FF8A71;
     }
   }
 
@@ -130,8 +131,8 @@ $section-spacing: 2rem;
   .form {
     display: grid;
     gap: 1.5rem;
-    grid-template-columns: 1fr 1fr; /* Deux colonnes égales */
-    column-gap: 2rem; /* Espace entre les colonnes */
+    grid-template-columns: 1fr 1fr;
+    column-gap: 2rem;
 
     .form-group {
       display: flex;
@@ -162,7 +163,7 @@ $section-spacing: 2rem;
     }
 
     button[type="submit"] {
-      grid-column: span 2; /* Le bouton prend toute la largeur des deux colonnes */
+      grid-column: span 2;
       background: $primary-color;
       color: white;
       padding: 1rem 2rem;
@@ -185,7 +186,7 @@ $section-spacing: 2rem;
   }
 
   .btn-primary {
-    background: #3182ce;
+    background: $primary-color;
     color: white;
     padding: 0.6rem 1.2rem;
     border-radius: 0.5rem;
@@ -194,7 +195,7 @@ $section-spacing: 2rem;
     transition: background 0.3s;
 
     &:hover {
-      background: #2b6cb0;
+      background: #FF8A71;
     }
   }
 

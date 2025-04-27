@@ -1,7 +1,7 @@
 :host{
   max-width: 480px;
-  margin: 2rem auto;
-  background: rgba(255, 255, 255, 0.95);
+  margin: 1rem auto;
+  background: rgba(255, 255, 255, 0.98);
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
@@ -13,8 +13,8 @@
 
   h2 {
     margin-bottom: 1.5rem;
-    font-size: 1.8rem; // réduit
-    color: #1e293b;
+    font-size: 1.8rem;
+    color: #1B2A41;
     font-weight: 700;
   }
 
@@ -30,7 +30,7 @@
       gap: 0.4rem;
 
       label {
-        font-size: 0.95rem; // réduit
+        font-size: 0.95rem;
         font-weight: 600;
         color: #475569;
       }
@@ -39,12 +39,12 @@
         padding: 0.6rem 0.9rem;
         border: 1px solid #cbd5e1;
         border-radius: 8px;
-        font-size: 0.95rem; // réduit
+        font-size: 0.95rem;
         transition: border-color 0.3s, box-shadow 0.3s;
 
         &:focus {
           outline: none;
-          border-color: #2a8d84;
+          border-color: #2AA6A1;
           box-shadow: 0 0 0 3px rgba(42, 141, 132, 0.2);
         }
       }
@@ -58,23 +58,23 @@
 
       small {
         color: #ef4444;
-        font-size: 0.8rem; // réduit
+        font-size: 0.8rem;
       }
     }
 
     button {
-      background-color: #2a8d84;
+      background-color: #2AA6A1;
       border: none;
       border-radius: 8px;
       padding: 0.7rem 1rem;
-      font-size: 1rem; // réduit
+      font-size: 1rem;
       font-weight: 600;
       color: white;
       cursor: pointer;
       transition: background-color 0.3s;
 
       &:hover {
-        background-color: darken(#2a8d84, 10%);
+        background-color: darken(#2AA6A1, 10%);
       }
 
       &:disabled {

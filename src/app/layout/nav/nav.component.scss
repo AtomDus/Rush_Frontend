@@ -4,7 +4,7 @@
   justify-content: center;
   height: 70px;
   width: 100%;
-  background-color: #F3E9D1;
+  background-color: #D0F0FD;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
   padding: 0 2rem;
@@ -12,7 +12,7 @@
   z-index: 100;
 
   ::ng-deep p-menubar {
-    background: rgba(255, 255, 255, 0.8);
+    background: #F4F6F8;
     backdrop-filter: blur(10px);
     border-radius: 12px;
     padding: 0.5rem 1.5rem;
@@ -26,7 +26,7 @@
 
       .p-menuitem {
         a {
-          color: #1e293b; // Bleu-gris élégant
+          color: #1B2A41;
           font-weight: 600;
           font-size: 1.1rem;
           text-decoration: none;
@@ -36,7 +36,7 @@
 
           &:hover {
             background: #2a8d84;
-            color: white;
+            color: #1B2A41;
           }
         }
       }
@@ -48,6 +48,9 @@
   }
 
   ::ng-deep .p-dialog {
+
+    border-radius: 12px;
+    border: 1px solid #1B2A41;
 
       .p-dialog-header-icons {
         position: absolute;

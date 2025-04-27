@@ -1,4 +1,4 @@
-$primary-color: #2a8d84;
+$primary-color: #2AA6A1;
 $secondary-color: #f2f2f2;
 $text-color: #333;
 $accent-color: #e0f7f5;
@@ -13,7 +13,7 @@ $section-spacing: 2rem;
   align-items: center;
   text-align: center;
   padding: 1.5rem;
-  background: #f9fafb;
+  background: #fff;
   border-radius: 1rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   max-width: 1200px;
@@ -36,10 +36,10 @@ $section-spacing: 2rem;
   .infos-project {
     width: 1000px;
     display: flex;
-    flex-wrap: wrap; // autorise à aller à la ligne si pas assez de place
-    gap: 2rem; // espace entre les éléments
+    flex-wrap: wrap;
+    gap: 2rem;
     justify-content: center;
-    align-items: stretch; // pour qu'ils aient tous la même hauteur
+    align-items: stretch;
     margin-bottom: 1rem;
     padding: 1rem;
     background: #fff;
@@ -47,11 +47,11 @@ $section-spacing: 2rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 
     section.section {
-      flex: 1 1 300px; // chaque section prend au moins 300px, mais peut s'étirer
+      flex: 1 1 300px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      background: $secondary-color;
+      background: #F4F6F8;
       padding: 1rem;
       border-radius: 0.75rem;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
@@ -68,7 +68,7 @@ $section-spacing: 2rem;
     h2 {
       font-size: 1.2rem;
       margin-bottom: 1rem;
-      color: #2d3748;
+      color: #1B2A41;
     }
 
     ul {
@@ -104,7 +104,7 @@ $section-spacing: 2rem;
 
       &:focus {
         outline: none;
-        border-color: #3182ce;
+        border-color: $primary-color;
         box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
       }
     }
@@ -128,8 +128,8 @@ $section-spacing: 2rem;
   }
 
   .btn {
-    background: #edf2f7;
-    color: #2d3748;
+    background-color: #D0F0FD;
+    color: #1B2A41;
     border: 1px solid #cbd5e0;
 
     &:hover {
@@ -138,12 +138,12 @@ $section-spacing: 2rem;
   }
 
   .btn-primary {
-    background: #3182ce;
+    background: $primary-color;
     color: white;
     border: none;
 
     &:hover {
-      background: #2b6cb0;
+      background: #FF8A71;
     }
   }
 
@@ -159,7 +159,7 @@ $section-spacing: 2rem;
     padding: 1rem;
     margin-top: 1rem;
     border-radius: 0.5rem;
-    color: #2c5282;
+    color: #1B2A41;
 
     p {
       margin: 0.2rem 0;
@@ -168,25 +168,25 @@ $section-spacing: 2rem;
 
   .equipement-div {
     width: 100%;
-    max-width: 1000px; /* Limite la largeur maximale de l'équipement */
+    max-width: 1000px;
     margin-top: 1rem;
-    display: block;  /* Garde une largeur totale */
-    overflow: hidden; /* Si le contenu dépasse, il sera caché */
+    display: block;
+    overflow: hidden;
   }
 
   .form-wrapper {
     width: 100%;
     display: block;
     margin-top: 1rem;
-    max-width: 1000px; /* Fixe une largeur maximale */
+    max-width: 1000px;
   }
 
   .form-equipement {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
-    max-width: 1000px;  /* Limite la largeur des formulaires */
-    margin: 0 auto; /* Centrer le formulaire horizontalement */
+    max-width: 1000px;
+    margin: 0 auto;
 
     @media (min-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
@@ -195,7 +195,7 @@ $section-spacing: 2rem;
     label {
       font-weight: 600;
       font-size: 0.9rem;
-      color: $text-color;
+      color: #1B2A41;
       margin-bottom: 0.2rem;
       text-align: left;
       display: block;
@@ -241,7 +241,7 @@ $section-spacing: 2rem;
 
       &:focus {
         outline: none;
-        border-color: #3182ce;
+        border-color: $primary-color;
         box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
       }
     }

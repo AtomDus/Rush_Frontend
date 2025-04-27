@@ -1,4 +1,4 @@
-$primary-color: #35c4c4; // Couleur principale
+$primary-color: #2AA6A1; // Couleur principale
 $secondary-color: #f2f2f2; // Couleur de fond légère
 $text-color: #333; // Couleur de texte
 $header-font-size: 2.5rem;
@@ -10,10 +10,11 @@ $dialog-background: #fff;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-color: #F4F6F8;
 
   header {
-    background-color: $primary-color;
-    color: #fff;
+    background-color: #abe1ff;
+    color:#1B2A41;
     padding: 1rem 2rem;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -26,6 +27,6 @@ $dialog-background: #fff;
 
   footer{
     margin-top: auto;
-    background-color: #F3E9D1;
+    background-color: #D0F0FD;
   }
 }
