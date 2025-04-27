@@ -19,6 +19,14 @@
     </div>
 
     <div class="field">
+      <label for="username">Nom d'utilisateur</label>
+      <input id="username" formControlName="username" type="text" />
+      <small *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
+        Nom d'utilisateur requis
+      </small>
+    </div>
+
+    <div class="field">
       <label for="email">Email</label>
       <input id="email" formControlName="email" type="email" />
       <small *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">

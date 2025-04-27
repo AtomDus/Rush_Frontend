@@ -13,107 +13,117 @@
   <!-- Contenu principal -->
   <div class="main-content" *ngIf="!isLoading">
 
-    <!-- Projets en attente -->
-    <div>
-      <h3>🕒 Projets en attente</h3>
-      <div *ngIf="projectsEnAttente.length === 0">Aucun projet en attente.</div>
-      <div>
-        <ng-container *ngFor="let project of projectsEnAttente">
-          <app-project-details [project]="project"></app-project-details>
-
-          <div>
-            <button (click)="goToProject(project.id)">
-              Voir les détails
-            </button>
-          </div>
-
-        </ng-container>
-      </div>
+    <div class="button-container">
+      <button (click)="toggleList('waiting')" class="btn-primary">Projets en attente</button>
+      <button (click)="toggleList('ongoing')" class="btn-primary">Projets en cours</button>
+      <button (click)="toggleList('completed')" class="btn-primary">Projets terminés</button>
     </div>
 
-    <!-- Projets en cours -->
-    <div>
-      <h3>🚧 Projets en cours</h3>
-      <div *ngIf="projectsEnCours.length === 0">Aucun projet en cours.</div>
-      <div>
-        <ng-container *ngFor="let project of projectsEnCours">
-          <div>
+    <div class="projects">
+      <!-- Projets en attente -->
+      <div *ngIf="showList === 'waiting'">
+        <h3>🕒 Projets en attente</h3>
+        <div *ngIf="projectsEnAttente.length === 0">Aucun projet en attente.</div>
+        <div>
+          <ng-container *ngFor="let project of projectsEnAttente">
             <app-project-details [project]="project"></app-project-details>
 
             <div>
-              <button (click)="goToProject(project.id)">
+              <button (click)="goToProject(project.id)" class="btn-primary">
                 Voir les détails
               </button>
             </div>
-          </div>
-        </ng-container>
+
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- Projets en cours -->
+      <div *ngIf="showList === 'ongoing'">
+        <h3>🚧 Projets en cours</h3>
+        <div *ngIf="projectsEnCours.length === 0">Aucun projet en cours.</div>
+        <div>
+          <ng-container *ngFor="let project of projectsEnCours">
+            <div>
+              <app-project-details [project]="project"></app-project-details>
+
+              <div>
+                <button (click)="goToProject(project.id)" class="btn-primary">
+                  Voir les détails
+                </button>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- Projets terminés -->
+      <div *ngIf="showList === 'completed'">
+        <h3>✅ Projets terminés</h3>
+        <div *ngIf="projectsTermines.length === 0">Aucun projet terminé.</div>
+        <div>
+          <ng-container *ngFor="let project of projectsTermines">
+            <app-project-details [project]="project"></app-project-details>
+          </ng-container>
+        </div>
       </div>
     </div>
 
-    <!-- Projets terminés -->
-    <div class="mb-10">
-      <h3>✅ Projets terminés</h3>
-      <div *ngIf="projectsTermines.length === 0">Aucun projet terminé.</div>
-      <div>
-        <ng-container *ngFor="let project of projectsTermines">
-          <app-project-details [project]="project"></app-project-details>
-        </ng-container>
-      </div>
-    </div>
+
 
     <!-- Bouton d'ajout -->
-    <button (click)="toggleFormVisibility()">
+    <button (click)="toggleFormVisibility()" class="btn-primary">
       {{ isFormVisible ? 'Annuler' : 'Ajouter un projet' }}
     </button>
 
     <!-- Formulaire d'ajout -->
-    <div *ngIf="isFormVisible">
-      <form (ngSubmit)="onSubmit()" #projectForm="ngForm">
+    <div *ngIf="isFormVisible" class="form-wrapper">
+      <form (ngSubmit)="onSubmit()" #projectForm="ngForm" class="form">
 
-        <div class="space-y-2">
+        <div class="form-group">
           <label for="name">Nom du projet</label>
           <input type="text" id="name" [(ngModel)]="newProject.name" name="name" required />
         </div>
 
-        <div class="space-y-2">
+        <div class="form-group">
           <label for="description">Description</label>
           <input type="text" id="description" [(ngModel)]="newProject.description" name="description" required />
         </div>
 
-        <div class="space-y-2">
+        <div class="form-group">
           <label for="startingDate">Date de début</label>
           <input type="date" id="startingDate" [(ngModel)]="newProject.startingDate" name="startingDate" required />
         </div>
 
-        <div class="space-y-2">
+        <div class="form-group">
           <label for="finishingDate">Date de fin</label>
           <input type="date" id="finishingDate" [(ngModel)]="newProject.finishingDate" name="finishingDate" required />
         </div>
 
-        <div class="space-y-2">
+        <div class="form-group">
           <label for="productionCompanyName">Nom de l'entreprise de production</label>
           <input type="text" id="productionCompanyName" [(ngModel)]="newProject.productionCompanyName" name="productionCompanyName" required />
         </div>
 
-        <div class="space-y-2">
+        <div class="form-group">
           <label for="duration">Durée (en jours)</label>
           <input type="number" id="duration" [(ngModel)]="newProject.duration" name="duration" required />
         </div>
 
-        <div class="space-y-2">
+        <div class="form-group">
           <label for="budget">Budget</label>
           <input type="number" id="budget" [(ngModel)]="newProject.budget" name="budget" required />
         </div>
 
-        <button type="submit" [disabled]="!projectForm.form.valid">
+        <button type="submit" [disabled]="!projectForm.form.valid" class="btn-primary">
           Créer le projet
         </button>
       </form>
     </div>
-  </div>
 
   <!-- Calendrier -->
   <div *ngIf="!isLoading">
     <full-calendar [options]="calendarOptions"></full-calendar>
   </div>
+</div>
 </div>

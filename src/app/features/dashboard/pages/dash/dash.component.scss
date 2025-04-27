@@ -1,173 +1,237 @@
-:host{
-  padding: 2rem;
-  background-color: #f4f6f8;
-  min-height: 100vh;
+$primary-color: #2a8d84;
+$secondary-color: #f2f2f2;
+$text-color: #333;
+$accent-color: #e0f7f5;
+$error-color: #ff6b6b;
+$header-font-size: 2rem;
+$subheader-font-size: 1.5rem;
+$section-spacing: 2rem;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem;
+  background: #f9fafb;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  max-width: 1200px;
+  margin: 1.5rem auto;
+  font-family: 'Inter', sans-serif;
+  color: #333;
 
   h2 {
-    font-size: 2.5rem;
-    font-weight: bold;
+    font-size: $header-font-size;
+    font-weight: 700;
     margin-bottom: 2rem;
-    color: #2a8d84;
+    color: $primary-color;
   }
 
   h3 {
-    font-size: 1.8rem;
-    margin: 2rem 0 1rem;
-    color: #333;
+    font-size: $subheader-font-size;
+    margin-bottom: 1rem;
+    color: $primary-color;
   }
 
-  .main-content{
+  .main-content {
+    width: 1000px;
+    display: flex;
+    flex-direction: column;
+    gap: $section-spacing;
+  }
+
+  .projects{
+    width: 1000px;
     display: flex;
     flex-direction: row;
-    gap: 2rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: #fff;
+    padding: 1rem;
   }
 
   .section {
-    background-color: #ffffff;
+    background: $secondary-color;
     padding: 1.5rem;
-    margin-bottom: 2rem;
-    border-radius: 1rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-
-    &:hover {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   }
 
   .project-card {
-    background: #f9fafb;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    background: #fff;
     padding: 1rem;
-    margin-bottom: 1rem;
     border-radius: 0.75rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1rem;
+  }
+
+  .project-card button {
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.5rem;
+    background: $primary-color;
+    color: white;
+    border: none;
+    cursor: pointer;
     transition: background 0.3s;
 
     &:hover {
-      background: #eef2f5;
+      background: darken($primary-color, 10%);
     }
   }
 
-  button {
-    background-color: #2a8d84;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    margin-top: 1rem;
-    border: none;
+  .btn, .btn-primary {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    margin: 1rem;
     border-radius: 0.5rem;
+    font-weight: 600;
+    text-align: center;
     cursor: pointer;
-    transition: background-color 0.3s;
+    text-decoration: none;
+    transition: background 0.3s;
+  }
+
+  .btn {
+    background: #edf2f7;
+    color: #2d3748;
+    border: 1px solid #cbd5e0;
 
     &:hover {
-      background-color: #22776d;
+      background: #e2e8f0;
     }
   }
 
-  form {
-    background: #ffffff;
-    padding: 2rem;
-    border-radius: 1rem;
-    margin-top: 2rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  .btn-primary {
+    background: #3182ce;
+    color: white;
+    border: none;
 
-    label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 0.5rem;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 0.75rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 0.5rem;
-      font-size: 1rem;
-    }
-
-    button[type="submit"] {
-      width: 100%;
+    &:hover {
+      background: #2b6cb0;
     }
   }
 
-  full-calendar {
-    background: #ffffff;
-    padding: 2rem;
-    border-radius: 1rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    font-family: 'Poppins', sans-serif;
+  .form-wrapper {
     margin-top: 2rem;
+    background: #fff;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
 
-    .fc {
-      // Couleur de fond générale
-      background-color: #f9fafb;
-      border-radius: 1rem;
-      padding: 1rem;
-    }
+  .form {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr 1fr; /* Deux colonnes égales */
+    column-gap: 2rem; /* Espace entre les colonnes */
 
-    .fc-toolbar {
+    .form-group {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      margin-bottom: 1rem;
+      gap: 0.5rem;
 
-      .fc-toolbar-title {
-        font-size: 2rem;
-        color: #2a8d84;
-        font-weight: bold;
+      label {
+        font-size: 1rem;
+        font-weight: 600;
+        color: $text-color;
       }
 
-      .fc-button-group {
-        button {
-          background-color: #2a8d84;
-          border: none;
-          color: white;
-          border-radius: 0.5rem;
-          padding: 0.5rem 1rem;
-          margin: 0 0.25rem;
-          cursor: pointer;
-          transition: background-color 0.3s;
+      input {
+        padding: 0.75rem;
+        border: 1px solid #cbd5e0;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        width: 100%;
+        background: #f9fafb;
+        transition: border-color 0.2s;
 
-          &:hover {
-            background-color: #22776d;
-          }
+        &:focus {
+          outline: none;
+          border-color: #3182ce;
+          box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
         }
       }
     }
 
-    .fc-daygrid-day {
-      background-color: #ffffff;
-      border: 1px solid #e0e0e0;
-      transition: background-color 0.3s;
+    button[type="submit"] {
+      grid-column: span 2; /* Le bouton prend toute la largeur des deux colonnes */
+      background: $primary-color;
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
 
       &:hover {
-        background-color: #f1f5f9;
+        background: darken($primary-color, 10%);
+      }
+
+      &:disabled {
+        background: #ccc;
+        cursor: not-allowed;
       }
     }
+  }
 
-    .fc-day-today {
-      background-color: #d1fae5 !important; // vert clair pour "aujourd'hui"
-      border-radius: 0.5rem;
+  .btn-primary {
+    background: #3182ce;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+
+    &:hover {
+      background: #2b6cb0;
     }
+  }
 
-    .fc-event {
-      background-color: #2a8d84;
-      color: white;
-      border: none;
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.5rem;
-      font-size: 0.9rem;
-      font-weight: 500;
+  .loading {
+    font-size: 1.2rem;
+    color: #718096;
+    margin-top: 2rem;
+  }
 
-      &:hover {
-        background-color: #22776d;
-      }
+  .btn-add-project {
+    padding: 0.6rem 1.2rem;
+    margin-top: 2rem;
+    border-radius: 0.5rem;
+    background: $primary-color;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+
+    &:hover {
+      background: darken($primary-color, 10%);
     }
+  }
 
-    .fc-col-header-cell {
-      background-color: #2a8d84;
-      color: white;
-      padding: 0.75rem 0;
-      font-weight: bold;
-      border: none;
-    }
+  .empty-state {
+    color: #718096;
+    font-size: 1.1rem;
+    margin-top: 2rem;
+  }
+
+  .calendar-section {
+    margin-top: 3rem;
+    width: 100%;
+    display: block;
+    background: white;
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   }
 }

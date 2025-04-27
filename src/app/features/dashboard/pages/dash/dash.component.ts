@@ -32,6 +32,8 @@ export class DashComponent implements OnInit {
 
   isFormVisible: boolean = false;
   isLoading: boolean = true;
+  showList: string = 'waiting';
+
   newProject: any = {
     name: '',
     description: '',
@@ -119,6 +121,10 @@ export class DashComponent implements OnInit {
         console.error('Erreur lors de la création du projet:', err);
       }
     });
+  }
+
+  toggleList(list: string) {
+    this.showList = list;
   }
 
   getColorByStatus(status: string): string {

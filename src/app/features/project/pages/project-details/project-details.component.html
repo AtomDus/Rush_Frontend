@@ -1,317 +1,172 @@
-<div *ngIf="isLoading">Chargement...</div>
-<div *ngIf="!isLoading && !project">
+<div *ngIf="isLoading" class="loading">Chargement...</div>
+
+<div *ngIf="!isLoading && !project" class="not-found">
   <p>Projet introuvable.</p>
 </div>
 
-<div *ngIf="!isLoading && project">
+<div *ngIf="!isLoading && project" class="project-details">
 
-  <h2>{{ project.name }}</h2>
-  <p><strong>Description:</strong> {{ project.description }}</p>
-  <p><strong>Status:</strong> {{ project.status }}</p>
-  <p><strong>Début:</strong> {{ project.startingDate }}</p>
-  <p><strong>Fin:</strong> {{ project.finishingDate }}</p>
+  <h1 class="project-title">{{ project.name }}</h1>
+  <p><strong>Description :</strong> {{ project.description }}</p>
+  <p><strong>Status :</strong> {{ project.status }}</p>
+  <p><strong>Dates :</strong> {{ project.startingDate }} ➔ {{ project.finishingDate }}</p>
+  <p><strong>Budget :</strong> {{ project.budget }}</p>
 
-  <div *ngIf="project?.responsable">
-    <h3>Responsable</h3>
-    <p><strong>Nom:</strong> {{ project.responsable.firstname }} {{ project.responsable.lastname }}</p>
-    <p><strong>Email:</strong> {{ project.responsable.email }}</p>
-  </div>
+  <section *ngIf="project?.responsable" class="section">
+    <h2>Responsable</h2>
+    <p>{{ project.responsable.firstname }} {{ project.responsable.lastname }} — {{ project.responsable.email }}</p>
+  </section>
 
-  <div *ngIf="project?.stages">
-    <h3>Etapes</h3>
-    <ul>
-      <li *ngFor="let stage of project.stages">
-        {{ stage.name }}
-        {{ stage.description }}
-      </li>
-    </ul>
-  </div>
+  <div class="infos-project">
+    <section *ngIf="project?.stages" class="section">
+      <h2>Etapes</h2>
+      <button (click)="onShowStageList()" class="btn">
+        {{ showStageList ? 'Masquer les étapes' : 'Voir les étapes' }}
+      </button>
 
-  <button type="button"
-    (click)="toggleFormVisibility()">
-    {{ isFormVisible ? 'Annuler' : 'Ajouter un projet' }}
-  </button>
+      <ul *ngIf="showStageList">
+        <li *ngFor="let stage of project.stages">
+          <strong>{{ stage.name }}</strong> : {{ stage.description }}
+        </li>
+      </ul>
 
-  <div *ngIf="isFormVisible">
-    <h3>Ajouter un Stage</h3>
-    <form #stageForm="ngForm" (ngSubmit)="onSubmitStageForm(stageForm)">
-      <div>
-        <label for="stage_name">Nom du Stage:</label>
-        <input type="text" id="stage_name" [(ngModel)]="newStage.name" name="name" required />
-      </div>
-      <div>
-        <label for="stage_description">Description:</label>
-        <textarea id="stage_description" [(ngModel)]="newStage.description" name="description" required></textarea>
-      </div>
-      <div>
-        <label for="startingDate">Date de début:</label>
-        <input type="date" id="startingDate" [(ngModel)]="newStage.startingDate" name="startingDate" required />
-      </div>
-      <div>
-        <label for="finishingDate">Date de fin:</label>
-        <input type="date" id="finishingDate" [(ngModel)]="newStage.finishingDate" name="finishingDate" required />
-      </div>
-      <div>
-        <label for="status">Statut:</label>
-        <select id="status" [(ngModel)]="newStage.status" name="status" required>
-          <option value="" disabled selected>Sélectionner un statut</option>
+      <button (click)="toggleFormVisibility()" class="btn-primary">
+        {{ isFormVisible ? 'Annuler' : 'Ajouter une étape' }}
+      </button>
+
+      <form *ngIf="isFormVisible" #stageForm="ngForm" (ngSubmit)="onSubmitStageForm(stageForm)" class="form">
+        <input type="text" placeholder="Nom du stage" [(ngModel)]="newStage.name" name="name" required />
+        <textarea placeholder="Description" [(ngModel)]="newStage.description" name="description" required></textarea>
+        <label for="startingDate">Date de début</label>
+        <input id="startingDate" type="date" [(ngModel)]="newStage.startingDate" name="startingDate" required />
+        <label for="finishingDate">Date de fin</label>
+        <input id="finishingDate" type="date" [(ngModel)]="newStage.finishingDate" name="finishingDate" required />
+        <select [(ngModel)]="newStage.status" name="status" required>
+          <option value="" disabled>Sélectionner un statut</option>
           <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
         </select>
-        <div *ngIf="newStage.status === ''">
-          Le statut est requis.
+        <button type="submit" [disabled]="!stageForm.valid" class="btn-primary">Ajouter</button>
+      </form>
+    </section>
+
+    <section class="section">
+      <h2>Employés</h2>
+      <button (click)="onShowEmployeeList()" class="btn">Voir les employés</button>
+      <ul *ngIf="showEmployeeList">
+        <li *ngFor="let emp of project.employes">
+          {{ emp.firstname }} {{ emp.lastname }} ({{ emp.jobTitle }})
+
+          <!-- Bouton avec une icône de message -->
+          <button (click)="toggleEmailTextArea(emp.id)" class="btn">
+            <i class="fas fa-envelope">Email</i>
+          </button>
+
+          <div *ngIf="emailVisibility.get(emp.id)" class="email-text-area">
+            <h4>Contenu du mail</h4>
+            <textarea placeholder="Écrivez votre message ici..."></textarea>
+
+            <!-- Bouton Envoyer, visible seulement quand la zone de texte est activée -->
+            <button *ngIf="emailVisibility.get(emp.id)" (click)="sendEmail(emp.id)" class="btn btn-send">
+              Envoyer
+            </button>
+
+            <!-- Alerte email envoyé, qui disparaît après quelques secondes -->
+            <div *ngIf="emailSent.get(emp.id)" class="alert">
+              <p>Email envoyé !</p>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+      <div class="add-employee">
+        <input type="email" placeholder="Email de l'employé" [(ngModel)]="newEmploye.email" name="searchEmail" required />
+        <button (click)="onSearchEmployee(newEmploye.email)" class="btn-primary">Rechercher</button>
+      </div>
+
+      <form *ngIf="showEmployeeForm" #employeForm="ngForm" (ngSubmit)="onSubmitEmployeForm(employeForm)" class="form">
+        <input type="text" placeholder="Prénom" [(ngModel)]="newEmploye.firstname" name="firstname" required />
+        <input type="text" placeholder="Nom" [(ngModel)]="newEmploye.lastname" name="lastname" required />
+        <input type="text" placeholder="Titre du poste" [(ngModel)]="newEmploye.jobTitle" name="jobTitle" required />
+        <input type="email" [(ngModel)]="newEmploye.email" name="email" readonly required />
+        <input type="tel" placeholder="Numéro de téléphone" [(ngModel)]="newEmploye.phoneNumber" name="phoneNumber" required />
+
+        <button type="button" (click)="onCancelEmployeeForm()" class="btn">Annuler</button>
+        <button type="submit" class="btn-primary" [disabled]="!employeForm.valid">Ajouter</button>
+      </form>
+    </section>
+
+    <div class="equipement-div">
+      <section class="section">
+        <h2>Équipements</h2>
+        <button (click)="onShowEquipementList()" class="btn">Voir les équipements</button>
+        <ul *ngIf="showEquipementList">
+          <li *ngFor="let eq of project.equipements">
+            {{ eq.name }} ({{ eq.stock }} en stock)
+          </li>
+        </ul>
+
+        <button (click)="onShowAddEquipementForm()" class="btn-primary">Ajouter un équipement</button>
+
+        <div class="form-wrapper">
+          <form *ngIf="showAddEquipementForm" #equipementForm="ngForm" (ngSubmit)="onSubmitEquipementForm(equipementForm)" class="form form-equipement">
+
+            <label for="name">Nom</label>
+            <input id="name" type="text" placeholder="Nom" [(ngModel)]="newEquipement.name" name="name" required />
+
+            <label for="description">Description</label>
+            <input id="description" type="text" placeholder="Description" [(ngModel)]="newEquipement.description" name="description" required />
+
+            <label for="model">Modèle</label>
+            <input id="model" type="text" placeholder="Modèle" [(ngModel)]="newEquipement.model" name="model" required />
+
+            <label for="type">Type</label>
+            <input id="type" type="text" placeholder="Type" [(ngModel)]="newEquipement.type" name="type" required />
+
+            <label for="serialNumber">Numéro de série</label>
+            <input id="serialNumber" type="text" placeholder="Numéro de série" [(ngModel)]="newEquipement.serialNumber" name="serialNumber" required />
+
+            <label for="stock">Stock</label>
+            <input id="stock" type="number" placeholder="Stock" [(ngModel)]="newEquipement.stock" name="stock" required />
+
+            <label for="stockage">Emplacement</label>
+            <input id="stockage" type="text" placeholder="Emplacement" [(ngModel)]="newEquipement.stockagePlace" name="stockage" required />
+
+            <label for="condition">Condition</label>
+            <select id="condition" [(ngModel)]="newEquipement.condition" name="condition" required>
+              <option value="NEW">Nouveau</option>
+              <option value="GOOD">Bon état</option>
+              <option value="BROKEN">Cassé</option>
+              <option value="TO_BE_REVISED">À réviser</option>
+            </select>
+
+            <label for="acquisitionDate">Date d'acquisition</label>
+            <input id="acquisitionDate" type="date" [(ngModel)]="newEquipement.acquisitionDate" name="acquisitionDate" />
+
+            <label for="plannedRevisionDate">Date de révision prévue</label>
+            <input id="plannedRevisionDate" type="date" [(ngModel)]="newEquipement.plannedRevisionDate" name="plannedRevisionDate" />
+
+            <label for="lastRevision">Dernière révision</label>
+            <input id="lastRevision" type="date" [(ngModel)]="newEquipement.lastRevision" name="lastRevision" />
+
+            <label for="ownerName">Nom du propriétaire</label>
+            <input id="ownerName" type="text" placeholder="Nom du propriétaire" [(ngModel)]="ownerName" (ngModelChange)="searchRentingCompany(ownerName)" name="ownerName" />
+
+            <div *ngIf="foundOwner" class="owner-info">
+              <p><strong>Propriétaire :</strong> {{ foundOwner.name }}</p>
+              <p><strong>Adresse :</strong> {{ foundOwner.address }}</p>
+              <p><strong>Téléphone :</strong> {{ foundOwner.phoneNumber }}</p>
+            </div>
+
+            <button type="submit" class="btn-primary" [disabled]="!equipementForm.valid">Ajouter</button>
+          </form>
         </div>
-      </div>
-      <button type="submit" [disabled]="!stageForm.valid">Ajouter</button>
-      <button type="button" (click)="toggleFormVisibility()">Annuler</button>
-    </form>
+      </section>
+    </div>
+
   </div>
 
-  <p><strong>Budget:</strong> {{ project.budget}}</p>
-
-  <h3>Employés</h3>
-
-  <button type="button" (click)="onShowEmployeeList()">Voir les employés</button>
-
-  <div *ngIf="showEmployeeList">
-    <ul>
-      <li *ngFor="let emp of project.employes">
-        {{ emp.firstname }} {{ emp.lastname }} ({{ emp.jobTitle }})
-      </li>
-    </ul>
-    <button type="button" (click)="onShowEmployeeList()">Annuler</button>
-  </div>
-
-  <div class="my-4">
-    <label for="searchEmail">Ajouter un employé :</label>
-    <input
-      type="email"
-      id="searchEmail"
-      [(ngModel)]="newEmploye.email"
-      name="searchEmail"
-      placeholder="Entrez l'email"
-      required
-    />
-    <button type="button" (click)="onSearchEmployee(newEmploye.email)">
-      Rechercher
-    </button>
-  </div>
-
-  <div *ngIf="searchedEmployee">
-    Employé trouvé et ajouté au projet.
-  </div>
-
-  <div *ngIf="showEmployeeForm">
-    <h3>Ajouter un Employé</h3>
-
-    <form #employeForm="ngForm" (ngSubmit)="onSubmitEmployeForm(employeForm)">
-
-      <div>
-        <label for="firstname">Prénom :</label>
-        <input type="text" id="firstname" [(ngModel)]="newEmploye.firstname" name="firstname" required />
-      </div>
-
-      <div>
-        <label for="lastname">Nom :</label>
-        <input type="text" id="lastname" [(ngModel)]="newEmploye.lastname" name="lastname" required />
-      </div>
-
-      <div>
-        <label for="jobTitle">Titre du poste :</label>
-        <input type="text" id="jobTitle" [(ngModel)]="newEmploye.jobTitle" name="jobTitle" required />
-      </div>
-
-      <div>
-        <label for="email">Email :</label>
-        <input type="email" id="email" [(ngModel)]="newEmploye.email" name="email" required readonly />
-      </div>
-
-      <div>
-        <label for="phoneNumber">Numéro de téléphone :</label>
-        <input type="tel" id="phoneNumber" [(ngModel)]="newEmploye.phoneNumber" name="phoneNumber" required />
-      </div>
-
-      <div>
-        <button type="submit" [disabled]="!employeForm.valid">
-          Ajouter
-        </button>
-        <button type="button" (click)="showEmployeeForm = false">
-          Annuler
-        </button>
-      </div>
-
-    </form>
-  </div>
-
-  <button type="button" (click)="onShowEquipementList()">Voir les equipements</button>
-
-  <div *ngIf="showEquipementList">
-    <ul>
-      <li *ngFor="let eq of project.equipements">
-        {{ eq.name }} ({{ eq.stock }} en stock)
-      </li>
-    </ul>
-    <button type="button" (click)="onShowEquipementList()">Annuler</button>
-  </div>
-
-  <button type="button" (click)="onShowAddEquipementForm()">Ajouter un équipement</button>
-
-  <div *ngIf="showAddEquipementForm">
-    <form #equipementForm="ngForm" (ngSubmit)="onSubmitEquipementForm(equipementForm)">
-
-      <div>
-        <label for="name">Nom de l'équipement :</label>
-        <input
-          type="text"
-          id="name"
-          [(ngModel)]="newEquipement.name"
-          name="name"
-          required
-        />
-      </div>
-
-      <!-- Recherche du RentingCompany par nom -->
-      <div>
-        <label for="ownerName">Nom du propriétaire (Renting Company) :</label>
-        <input
-          type="text"
-          id="ownerName"
-          [(ngModel)]="ownerName"
-          (ngModelChange)="searchRentingCompany(ownerName)"
-          name="ownerName"
-        />
-      </div>
-
-      <!-- Affichage des informations du propriétaire sélectionné -->
-      <div *ngIf="foundOwner">
-        <p><strong>Propriétaire sélectionné :</strong> {{ foundOwner.name }}</p>
-        <p><strong>Adresse :</strong> {{ foundOwner.address }}</p>
-        <p><strong>Téléphone :</strong> {{ foundOwner.phoneNumber }}</p>
-      </div>
-
-      <div>
-        <label for="description">Description :</label>
-        <input
-          type="text"
-          id="description"
-          [(ngModel)]="newEquipement.description"
-          name="description"
-          required
-        />
-      </div>
-
-      <div>
-        <label for="model">Modèle :</label>
-        <input
-          type="text"
-          id="model"
-          [(ngModel)]="newEquipement.model"
-          name="model"
-          required
-        />
-      </div>
-
-      <div>
-        <label for="type">Type :</label>
-        <input
-          type="text"
-          id="type"
-          [(ngModel)]="newEquipement.type"
-          name="type"
-          required
-        />
-      </div>
-
-      <div>
-        <label for="serialNumber">Numéro de série :</label>
-        <input
-          type="text"
-          id="serialNumber"
-          [(ngModel)]="newEquipement.serialNumber"
-          name="serialNumber"
-          required
-        />
-      </div>
-
-      <div>
-        <label for="plannedRevisionDate">Date de révision prévue :</label>
-        <input
-          type="date"
-          id="plannedRevisionDate"
-          [(ngModel)]="newEquipement.plannedRevisionDate"
-          name="plannedRevisionDate"
-        />
-      </div>
-
-      <div>
-        <label for="condition">Condition :</label>
-        <select
-          id="condition"
-          [(ngModel)]="newEquipement.condition"
-          name="condition"
-          required
-        >
-          <option value="NEW">Nouveau</option>
-          <option value="GOOD">Bon état</option>
-          <option value="BROKEN">Cassé</option>
-          <option value="TO_BE_REVISED">À réviser</option>
-        </select>
-      </div>
-
-      <div>
-        <label for="stock">Stock :</label>
-        <input
-          type="number"
-          id="stock"
-          [(ngModel)]="newEquipement.stock"
-          name="stock"
-          required
-        />
-      </div>
-
-      <div>
-        <label for="stockage_place">Emplacement de stockage :</label>
-        <input
-          type="text"
-          id="stockage_place"
-          [(ngModel)]="newEquipement.stockagePlace"
-          name="stockage"
-          required
-        />
-      </div>
-
-      <div>
-        <label for="acquisitionDate">Date d'acquisition :</label>
-        <input
-          type="date"
-          id="acquisitionDate"
-          [(ngModel)]="newEquipement.acquisitionDate"
-          name="acquisitionDate"
-        />
-      </div>
-
-      <div>
-        <label for="lastRevision">Dernière révision :</label>
-        <input
-          type="date"
-          id="lastRevision"
-          [(ngModel)]="newEquipement.lastRevision"
-          name="lastRevision"
-        />
-      </div>
-
-      <div>
-        <button type="submit" [disabled]="!equipementForm.valid">
-          Ajouter l'équipement
-        </button>
-        <button type="button" (click)="showAddEquipementForm = false">
-          Annuler
-        </button>
-      </div>
-    </form>
-  </div>
-
-  <div *ngIf="!isLoading">
+  <section class="calendar-section">
     <full-calendar [options]="calendarOptions"></full-calendar>
-  </div>
+  </section>
 
 </div>

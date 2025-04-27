@@ -8,170 +8,277 @@ $subheader-font-size: 1.5rem;
 $section-spacing: 2rem;
 
 :host{
-  padding: 2rem;
-  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem;
+  background: #f9fafb;
   border-radius: 1rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  color: $text-color;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  max-width: 1200px;
+  margin: 1.5rem auto;
+  font-family: 'Inter', sans-serif;
+  color: #333;
 
-  h2, h3 {
-    color: $primary-color;
-    margin-bottom: 1rem;
-  }
-
-  h2 {
-    font-size: $header-font-size;
-  }
-
-  h3 {
-    font-size: $subheader-font-size;
+  .project-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #1a202c;
   }
 
   p {
-    margin-bottom: 0.5rem;
-    line-height: 1.6;
+    margin: 0.5rem 0;
+    line-height: 1.5;
   }
 
-  .loading, .not-found {
-    text-align: center;
-    font-size: 1.2rem;
-    margin-top: 3rem;
-    color: $text-color;
-  }
+  .infos-project {
+    width: 1000px;
+    display: flex;
+    flex-wrap: wrap; // autorise à aller à la ligne si pas assez de place
+    gap: 2rem; // espace entre les éléments
+    justify-content: center;
+    align-items: stretch; // pour qu'ils aient tous la même hauteur
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 
-  .section {
-    margin-top: $section-spacing;
-    padding: 1.5rem;
-    background-color: $secondary-color;
-    border-radius: 0.8rem;
-  }
-
-  ul {
-    list-style: inside disc;
-    padding-left: 1rem;
-    margin-top: 1rem;
-
-    li {
-      margin-bottom: 0.5rem;
+    section.section {
+      flex: 1 1 300px; // chaque section prend au moins 300px, mais peut s'étirer
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: $secondary-color;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      text-align: center;
     }
   }
 
-  // Formulaires généraux
-  form {
-    display: flex;
-    flex-direction: column;
+  ssection.section {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+    text-align: center;
+
+    h2 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: #2d3748;
+    }
+
+    ul {
+      padding-left: 1rem;
+      li {
+        margin-bottom: 0.5rem;
+        list-style-type: disc;
+      }
+    }
+  }
+
+  .form {
+    display: grid;
     gap: 1rem;
     margin-top: 1rem;
 
     label {
-      font-weight: bold;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: $text-color;
       margin-bottom: 0.2rem;
+      text-align: left;
     }
 
     input, textarea, select {
-      padding: 0.8rem;
-      border: 1px solid #ccc;
+      padding: 0.75rem;
+      border: 1px solid #cbd5e0;
       border-radius: 0.5rem;
       font-size: 1rem;
-      background-color: #fff;
+      width: 100%;
+      background: white;
+      transition: border-color 0.2s;
+
+      &:focus {
+        outline: none;
+        border-color: #3182ce;
+        box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
+      }
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+  }
+
+  .btn, .btn-primary {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    margin-top: 1rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.3s;
+  }
+
+  .btn {
+    background: #edf2f7;
+    color: #2d3748;
+    border: 1px solid #cbd5e0;
+
+    &:hover {
+      background: #e2e8f0;
+    }
+  }
+
+  .btn-primary {
+    background: #3182ce;
+    color: white;
+    border: none;
+
+    &:hover {
+      background: #2b6cb0;
+    }
+  }
+
+  .loading, .not-found {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    color: #718096;
+  }
+
+  .owner-info {
+    background: #ebf8ff;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 0.5rem;
+    color: #2c5282;
+
+    p {
+      margin: 0.2rem 0;
+    }
+  }
+
+  .equipement-div {
+    width: 100%;
+    max-width: 1000px; /* Limite la largeur maximale de l'équipement */
+    margin-top: 1rem;
+    display: block;  /* Garde une largeur totale */
+    overflow: hidden; /* Si le contenu dépasse, il sera caché */
+  }
+
+  .form-wrapper {
+    width: 100%;
+    display: block;
+    margin-top: 1rem;
+    max-width: 1000px; /* Fixe une largeur maximale */
+  }
+
+  .form-equipement {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    max-width: 1000px;  /* Limite la largeur des formulaires */
+    margin: 0 auto; /* Centrer le formulaire horizontalement */
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: $text-color;
+      margin-bottom: 0.2rem;
+      text-align: left;
+      display: block;
+    }
+
+    input, select, textarea {
       width: 100%;
     }
 
-    input[readonly] {
-      background-color: #e9ecef;
+    textarea {
+      grid-column: span 2;
     }
 
-    select:invalid {
-      color: #777;
-    }
-
-    .error {
-      color: $error-color;
-      font-size: 0.9rem;
-    }
-
-    button[type="submit"], button[type="button"] {
-      background-color: $primary-color;
-      color: #fff;
-      border: none;
-      padding: 0.8rem 1.2rem;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: background-color 0.3s ease;
-
-      &:hover {
-        background-color: darken($primary-color, 10%);
-      }
-
-      &.cancel {
-        background-color: #aaa;
-        margin-left: 1rem;
-
-        &:hover {
-          background-color: darken(#aaa, 10%);
-        }
-      }
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
+    button[type="submit"] {
+      grid-column: span 2;
+      justify-self: center;
     }
   }
 
-  // Boutons de gestion des listes
-  .toggle-section {
-    margin-top: 1.5rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-
-    button {
-      background-color: $accent-color;
-      color: $text-color;
-      padding: 0.7rem 1.5rem;
-      border: 1px solid $primary-color;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-
-      &:hover {
-        background-color: $primary-color;
-        color: #fff;
-      }
-    }
-  }
-
-  // Partie Calendrier
-  .calendar-container {
-    margin-top: $section-spacing;
-    background-color: $secondary-color;
-    padding: 1rem;
-    border-radius: 1rem;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
-  }
-
-  // Barre de recherche email employé
-  .search-email {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin: 2rem 0;
-
-    input {
-      flex: 1;
-    }
-
-    button {
-      flex-shrink: 0;
-    }
-  }
-
-  // Messages de confirmation
-  .success-message {
+  .email-text-area {
     margin-top: 1rem;
-    color: green;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    background-color: #f9fafb;
+
+    h4 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 150px;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      resize: vertical;
+      background-color: #fff;
+      transition: border-color 0.2s;
+
+      &:focus {
+        outline: none;
+        border-color: #3182ce;
+        box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
+      }
+    }
+  }
+
+  .btn-send {
+    background-color: #38a169;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .btn-send:hover {
+    background-color: #2f855a;
+  }
+
+  .alert {
+    background-color: #f0fff4;
+    color: #2f855a;
+    padding: 0.5rem;
+    margin-top: 1rem;
+    border-radius: 0.25rem;
     font-weight: bold;
+  }
+
+  .calendar-section {
+    margin-top: 3rem;
+
+    full-calendar {
+      border-radius: 1rem;
+      overflow: hidden;
+      background: white;
+      padding: 1rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
   }
 }

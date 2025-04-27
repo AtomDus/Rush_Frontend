@@ -1,5 +1,5 @@
 import {Component, EventEmitter, inject, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
 import {RegisterFormModel} from '../../models/register-form.model';
 import {NgForOf, NgIf} from '@angular/common';
@@ -15,6 +15,7 @@ import {Checkbox} from 'primeng/checkbox';
     ReactiveFormsModule,
     NgIf,
     NgForOf,
+    FormsModule,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
@@ -34,6 +35,7 @@ export class RegisterComponent implements OnInit{
 
   ngOnInit() {
     this.registerForm = this._fb.group({
+      username: ['', [Validators.required, Validators.maxLength(50)]],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -50,8 +52,9 @@ export class RegisterComponent implements OnInit{
     if (this.registerForm.invalid) return;
 
     const value: RegisterFormModel = this.registerForm.value;
-    console.log('Données envoyées:', value);  // Log les données avant l'envoi
-
+    console.log('Données envoyées:', value);
+    console.log(this.registerForm.value);// Vérifier les données envoyées
+    // Formulaire envoyé
     this._authService.register(value).subscribe({
       next: () => console.log('Utilisateur inscrit avec succès'),
       error: (err) => {

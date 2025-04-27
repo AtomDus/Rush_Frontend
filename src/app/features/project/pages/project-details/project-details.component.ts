@@ -2,7 +2,7 @@ import {Component, inject, Input, OnInit} from '@angular/core';
 import {EmployeeDTO, ProjectDTO, StageDTO} from '../../models/projectDTO';
 import {ActivatedRoute} from '@angular/router';
 import {ProjectService} from '../../service/project.service';
-import {NgForOf, NgIf} from '@angular/common';
+import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
 import {FullCalendarModule} from '@fullcalendar/angular';
 import {CalendarOptions} from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -44,6 +44,10 @@ export class ProjectDetailsComponent implements OnInit {
 
   showEmployeeList = false;
   showEquipementList = false;
+  showStageList = false;
+
+  emailVisibility = new Map<number, boolean>();
+  emailSent = new Map<number, boolean>();
 
   statusOptions = ['PENDING', 'OPEN', 'CLOSED'];
 
@@ -148,6 +152,10 @@ export class ProjectDetailsComponent implements OnInit {
     this.isFormVisible = !this.isFormVisible;
   }
 
+  onShowStageList() {
+    this.showStageList = !this.showStageList;  // Alterne entre afficher et masquer la liste des étapes
+  }
+
   onSubmitStageForm(form: NgForm): void {
     const newStage = { ...this.newStage };
     if (form.valid) {
@@ -215,6 +223,34 @@ export class ProjectDetailsComponent implements OnInit {
 
   onShowEmployeeList(): void {
     this.showEmployeeList = !this.showEmployeeList;
+  }
+
+  toggleEmailTextArea(empId: number): void {
+    this.emailVisibility.set(empId, !this.emailVisibility.get(empId));
+    // Réinitialiser l'alerte de l'email
+    this.emailSent.set(empId, false);
+  }
+
+  openEmailTextArea(emp: any): void {
+    emp.showEmailTextArea = !emp.showEmailTextArea;  // Affiche/masque la zone de texte
+  }
+
+  sendEmail(empId: number): void {
+    // Logique d'envoi d'email ici (pour l'instant, on montre juste l'alerte)
+    console.log(`Email envoyé à l'employé ID ${empId}`);
+
+    // Afficher l'alerte "Email envoyé"
+    this.emailSent.set(empId, true);
+
+    // Masquer l'alerte après 3 secondes
+    setTimeout(() => {
+      this.emailSent.set(empId, false);
+    }, 3000);
+  }
+
+  onCancelEmployeeForm() {
+    this.showEmployeeForm = false;  // Masque le formulaire
+    this.newEmploye = {};  // Réinitialise les champs du formulaire
   }
 
   onShowEquipementList(): void {

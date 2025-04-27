@@ -1,6 +1,11 @@
 <div class="home-container">
   <h1>{{ welcomeMessage() }}</h1>
 
+  <div>
+    <h3>Rush est une appli vous permettant de mener à bien tout vos projets</h3>
+    <p>Elle vous servira à entreposer et utiliser toutes les informations dont vous aurez besoin pour y parvenir</p>
+  </div>
+
   <div *ngIf="!currentUser()" class="not-logged-in">
     <p>Bienvenue sur notre plateforme 🎉</p>
     <p>Connectez-vous pour découvrir toutes nos fonctionnalités.</p>
@@ -11,7 +16,4 @@
     <p>Explorez vos projets et continuez à bâtir de grandes choses avec nous 🚀</p>
     </div>
 
-  <div class="illustration">
-    <img src="assets/img/accueil.jpg" alt="Illustration d'accueil" />
-  </div>
 </div>
