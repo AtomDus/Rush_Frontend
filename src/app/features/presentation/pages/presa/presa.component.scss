@@ -1,0 +1,13 @@
+$primary-color: #2AA6A1;
+$secondary-color: #f2f2f2;
+$text-color: #333;
+$header-font-size: 2.5rem;
+$subheader-font-size: 1.2rem;
+$footer-font-size: 1rem;
+$dialog-background: #fff;
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}

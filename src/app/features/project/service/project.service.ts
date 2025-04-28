@@ -29,7 +29,7 @@ export class ProjectService {
   }
 
   findEmployeeByEmail(email: string): Observable<EmployeeDTO> {
-    return this.http.get<EmployeeDTO>(`http://localhost:8080/employees/email/${email}`);
+    return this.http.get<EmployeeDTO>(`http://localhost:8080/employes/email/${email}`);
   }
 
 }
