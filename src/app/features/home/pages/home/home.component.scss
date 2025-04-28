@@ -121,4 +121,11 @@ $dialog-background: #fff;
     }
   }
 
+  iframe{
+    display: flex;
+    ::-webkit-scrollbar {
+      width: 2px;
+    }
+  }
+
 }
